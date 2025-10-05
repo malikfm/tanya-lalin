@@ -23,7 +23,6 @@ class LegalTextChunk(Base):
 
     # Doc source, e.g., "UU_22_2009_LLAJ"
     source: Mapped[str] = mapped_column(String(64), nullable=False)
-    source_1: Mapped[str] = mapped_column(String(64), nullable=False)
 
     # Article (pasal) number
     article_number: Mapped[int] = mapped_column(Integer, nullable=False)
