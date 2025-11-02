@@ -4,7 +4,7 @@ from typing import Dict, List, Tuple
 
 from loguru._logger import Logger
 
-from ingestions.parser_core import LegalDocumentItem
+from ingestions.parser.core import LegalDocumentItem
 
 
 @dataclass

@@ -3,9 +3,9 @@ from pathlib import Path
 
 import pymupdf
 
-from ingestions.io import chunks_by_page_from_pdf, write_to_jsonl
-from ingestions.parser_core import LegalPDFParser, ParsingRules
-from ingestions.pdf_patterns import (
+from ingestions.parser.io import chunks_by_page_from_pdf, write_to_jsonl
+from ingestions.parser.core import LegalPDFParser, ParsingRules
+from ingestions.parser.pdf_patterns import (
     PAGE_PATTERN,
     CHAPTER_PATTERN,
     SECTION_PATTERN,
@@ -21,7 +21,7 @@ from ingestions.pdf_patterns import (
     END_OF_BODY_MARKER,
     END_OF_ELUCIDATION_MARKER
 )
-from ingestions.validation import validate_result
+from ingestions.parser.validation import validate_result
 from logging_setup import setup_logger
 
 class LegalTextType:

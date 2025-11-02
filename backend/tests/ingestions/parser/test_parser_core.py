@@ -1,7 +1,7 @@
 import unittest
 
-from ingestions.parser_core import LegalDocumentItem, LegalPDFParser, ParseState, ParsingRules
-from ingestions.pdf_patterns import (
+from ingestions.parser.core import LegalDocumentItem, LegalPDFParser, ParseState, ParsingRules
+from ingestions.parser.pdf_patterns import (
     PAGE_PATTERN,
     CHAPTER_PATTERN,
     SECTION_PATTERN,

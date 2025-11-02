@@ -1,11 +1,11 @@
 import json
 from dataclasses import asdict
 from pathlib import Path
-from typing import List, Sequence, Optional
+from typing import List
 
 from pymupdf import Document
 
-from ingestions.parser_core import LegalDocumentItem
+from ingestions.parser.core import LegalDocumentItem
 
 
 def text_to_chunks(text: str) -> List[str]:

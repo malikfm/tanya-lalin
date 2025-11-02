@@ -5,7 +5,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from ingestions import io
-from ingestions.parser_core import LegalDocumentItem
+from ingestions.parser.core import LegalDocumentItem
 
 
 class TestIO(unittest.TestCase):

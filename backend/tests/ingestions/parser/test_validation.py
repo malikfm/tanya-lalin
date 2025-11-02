@@ -1,8 +1,8 @@
 import unittest
 
 from ingestions import validation
-from ingestions.parser_core import LegalDocumentItem
-from ingestions.validation import ValidationReport
+from ingestions.parser.core import LegalDocumentItem
+from ingestions.parser.validation import ValidationReport
 from logging_setup import setup_logger
 
 
