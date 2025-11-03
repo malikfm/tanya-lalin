@@ -1,7 +1,7 @@
 from re import Pattern
 from typing import List, Optional, Tuple
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class LegalDocumentItem(BaseModel):
@@ -13,7 +13,7 @@ class LegalDocumentItem(BaseModel):
 class LegalTextChunkDTO(BaseModel):
     source: str
     article_number: int
-    paragraph_number: Optional[int]
+    paragraph_number: Optional[int] = Field(default=None)
     chunk_index: int
     chunk_type: str
     text: str
@@ -22,11 +22,11 @@ class LegalTextChunkDTO(BaseModel):
 
 
 class ParsingState(BaseModel):
-    article_number: Optional[int] = None
-    paragraph_number: Optional[int] = None
-    text: str = ""
-    in_article_section: bool = False
-    prev_was_article_wo_number: bool = False
+    article_number: Optional[int] = Field(default=None)
+    paragraph_number: Optional[int] = Field(default=None)
+    text: str = Field(default="")
+    in_article_section: bool = Field(default=False)
+    prev_was_article_wo_number: bool = Field(default=False)
 
 
 class ParsingValidationReport(BaseModel):
