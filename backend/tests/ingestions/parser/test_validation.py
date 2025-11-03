@@ -1,21 +1,24 @@
 import unittest
 
-from ingestions import validation
-from ingestions.parser.core import LegalDocumentItem
-from ingestions.parser.validation import ValidationReport
+from ingestions.parser import validation
+from ingestions.models import LegalDocumentItem
+from ingestions.models import ParsingValidationReport
 from logging_setup import setup_logger
 
 
 class TestValidation(unittest.TestCase):
     def test_check_total_articles(self):
         empty_list = []
-        empty_items = [LegalDocumentItem(None, None, None),LegalDocumentItem(None, None, None)]
+        empty_items = [
+            None,
+            None
+        ]
         partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         valid_legal_document = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text1 text2 text3 text4 text5 text6 text7 text8"),
@@ -37,13 +40,16 @@ class TestValidation(unittest.TestCase):
 
     def test_check_missing_articles(self):
         empty_list = []
-        empty_items = [LegalDocumentItem(None, None, None),LegalDocumentItem(None, None, None)]
+        empty_items = [
+            None,
+            None
+        ]
         partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         missing_articles = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
@@ -73,21 +79,24 @@ class TestValidation(unittest.TestCase):
     
     def test_check_missing_paragraphs(self):
         empty_list = []
-        empty_items = [LegalDocumentItem(None, None, None),LegalDocumentItem(None, None, None)]
+        empty_items = [
+            None,
+            None
+        ]
         partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         missing_paragraphs_in_partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=6, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         missing_paragraphs = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
@@ -120,22 +129,25 @@ class TestValidation(unittest.TestCase):
     
     def test_check_duplicate_article_paragraphs(self):
         empty_list = []
-        empty_items = [LegalDocumentItem(None, None, None),LegalDocumentItem(None, None, None)]
+        empty_items = [
+            None,
+            None
+        ]
         partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         duplicates_in_partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
             LegalDocumentItem(article_number=3, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=3, paragraph_number=1, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         duplicates = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
@@ -175,13 +187,16 @@ class TestValidation(unittest.TestCase):
         logger = setup_logger()
 
         empty_list = []
-        empty_items = [LegalDocumentItem(None, None, None),LegalDocumentItem(None, None, None)]
+        empty_items = [
+            None,
+            None
+        ]
         partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         missing_articles = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
@@ -191,12 +206,12 @@ class TestValidation(unittest.TestCase):
             LegalDocumentItem(article_number=6, paragraph_number=1, text="text")
         ]
         missing_paragraphs_in_partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=6, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         missing_paragraphs = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
@@ -208,13 +223,13 @@ class TestValidation(unittest.TestCase):
             LegalDocumentItem(article_number=5, paragraph_number=1, text="text")
         ]
         duplicates_in_partial_empty_items = [
-            LegalDocumentItem(None, None, None),
+            None,
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=2, paragraph_number=2, text="text"),
             LegalDocumentItem(article_number=3, paragraph_number=1, text="text"),
             LegalDocumentItem(article_number=3, paragraph_number=1, text="text"),
-            LegalDocumentItem(None, None, None)
+            None
         ]
         duplicates = [
             LegalDocumentItem(article_number=1, paragraph_number=None, text="text"),
@@ -244,8 +259,8 @@ class TestValidation(unittest.TestCase):
         ]
 
         # Empty list and items, should raise ValueError in check_missing_paragraphs
-        self.assertRaises(ValueError, validation.validate_result, logger, empty_list, "test", 3)
-        self.assertRaises(ValueError, validation.validate_result, logger, empty_items, "test", 2)
+        self.assertRaises(ValueError, validation.validate_result, empty_list, "test", 3)
+        self.assertRaises(ValueError, validation.validate_result, empty_items, "test", 2)
         
         # Partially empty items:
         #   - total_articles = 2, only 2 non-null unique articles exist, though expected_total_articles = 3
@@ -253,8 +268,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {}, no missing paragraphs in the existing non-null articles
         #   - duplicate_article_paragraphs = [], no duplicate article–paragraph combinations among non-null articles
         self.assertEqual(
-            validation.validate_result(logger, partial_empty_items, "test", 3),
-            ValidationReport(total_articles=2, missing_articles=[3], missing_paragraphs={}, duplicate_article_paragraphs=[])
+            validation.validate_result(partial_empty_items, "test", 3),
+            ParsingValidationReport(total_articles=2, missing_articles=[3], missing_paragraphs={}, duplicate_article_paragraphs=[])
         )
 
         # Total articles mismatch (expected 10, but 8 are given):
@@ -263,8 +278,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {}, no missing paragraphs in any article
         #   - duplicate_article_paragraphs = [], no duplicate article–paragraph combinations
         self.assertEqual(
-            validation.validate_result(logger, valid_legal_document, "test", 10),
-            ValidationReport(total_articles=8, missing_articles=[9,10], missing_paragraphs={}, duplicate_article_paragraphs=[])
+            validation.validate_result(valid_legal_document, "test", 10),
+            ParsingValidationReport(total_articles=8, missing_articles=[9,10], missing_paragraphs={}, duplicate_article_paragraphs=[])
         )
 
         # Missing articles (which also causes a total article count mismatch):
@@ -273,8 +288,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {}, no missing paragraphs in existing articles
         #   - duplicate_article_paragraphs = [], no duplicate article–paragraph combinations in existing articles
         self.assertEqual(
-            validation.validate_result(logger, missing_articles, "test", 6),
-            ValidationReport(total_articles=4, missing_articles=[3,5], missing_paragraphs={}, duplicate_article_paragraphs=[])
+            validation.validate_result(missing_articles, "test", 6),
+            ParsingValidationReport(total_articles=4, missing_articles=[3,5], missing_paragraphs={}, duplicate_article_paragraphs=[])
         )
 
         # Missing paragraphs in partially empty items:
@@ -283,8 +298,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {2:[3,4,5]}, paragraphs 3, 4, and 5 are missing in article 2 (based on its min/max paragraph range)
         #   - duplicate_article_paragraphs = [], no duplicate article–paragraph combinations among non-null articles
         self.assertEqual(
-            validation.validate_result(logger, missing_paragraphs_in_partial_empty_items, "test", 3),
-            ValidationReport(total_articles=2, missing_articles=[3], missing_paragraphs={2:[3,4,5]}, duplicate_article_paragraphs=[])
+            validation.validate_result(missing_paragraphs_in_partial_empty_items, "test", 3),
+            ParsingValidationReport(total_articles=2, missing_articles=[3], missing_paragraphs={2:[3,4,5]}, duplicate_article_paragraphs=[])
         )
 
         # Missing paragraphs:
@@ -293,8 +308,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {3:[2,3,4], 4:[1,2,3,4]}, paragraphs 2–4 missing in article 3, and paragraphs 1–4 missing in article 4
         #   - duplicate_article_paragraphs = [], no duplicate article–paragraph combinations
         self.assertEqual(
-            validation.validate_result(logger, missing_paragraphs, "test", 5),
-            ValidationReport(total_articles=5, missing_articles=[], missing_paragraphs={3:[2,3,4],4:[1,2,3,4]}, duplicate_article_paragraphs=[])
+            validation.validate_result(missing_paragraphs, "test", 5),
+            ParsingValidationReport(total_articles=5, missing_articles=[], missing_paragraphs={3:[2,3,4],4:[1,2,3,4]}, duplicate_article_paragraphs=[])
         )
 
         # Duplicates in partially empty items:
@@ -303,8 +318,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {}, no missing paragraphs in existing non-null articles
         #   - duplicate_article_paragraphs = [(3,1)], article–paragraph (3,1) appears multiple times
         self.assertEqual(
-            validation.validate_result(logger, duplicates_in_partial_empty_items, "test", 4),
-            ValidationReport(total_articles=3, missing_articles=[4], missing_paragraphs={}, duplicate_article_paragraphs=[(3,1)])
+            validation.validate_result(duplicates_in_partial_empty_items, "test", 4),
+            ParsingValidationReport(total_articles=3, missing_articles=[4], missing_paragraphs={}, duplicate_article_paragraphs=[(3,1)])
         )
 
         # Duplicates exist:
@@ -313,8 +328,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {}, no missing paragraphs in any article
         #   - duplicate_article_paragraphs = [(1,0), (3,1), (3,3)], these article–paragraph combinations appear multiple times
         self.assertEqual(
-            validation.validate_result(logger, duplicates, "test", 4),
-            ValidationReport(total_articles=4, missing_articles=[], missing_paragraphs={}, duplicate_article_paragraphs=[(1,0),(3,1),(3,3)])
+            validation.validate_result(duplicates, "test", 4),
+            ParsingValidationReport(total_articles=4, missing_articles=[], missing_paragraphs={}, duplicate_article_paragraphs=[(1,0),(3,1),(3,3)])
         )
         
         # Valid case:
@@ -323,8 +338,8 @@ class TestValidation(unittest.TestCase):
         #   - missing_paragraphs = {}, no missing paragraphs in any article
         #   - duplicate_article_paragraphs = [], no duplicate article–paragraph combinations
         self.assertEqual(
-            validation.validate_result(logger, valid_legal_document, "test", 8),
-            ValidationReport(total_articles=8, missing_articles=[], missing_paragraphs={}, duplicate_article_paragraphs=[])
+            validation.validate_result(valid_legal_document, "test", 8),
+            ParsingValidationReport(total_articles=8, missing_articles=[], missing_paragraphs={}, duplicate_article_paragraphs=[])
         )
 
 

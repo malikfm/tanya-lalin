@@ -1,6 +1,6 @@
 import unittest
 
-from ingestions.parser.core import LegalDocumentItem, LegalPDFParser, ParseState, ParsingRules
+from ingestions.parser.core import LegalDocumentItem, LegalPDFParser, ParsingState, ParsingRules
 from ingestions.parser.pdf_patterns import (
     PAGE_PATTERN,
     CHAPTER_PATTERN,
@@ -20,52 +20,52 @@ from ingestions.parser.pdf_patterns import (
 from logging_setup import setup_logger
 
 
-class TestParserCore(unittest.TestCase):
+class TestCore(unittest.TestCase):
     def __init__(self, methodName = "runTest"):
         super().__init__(methodName)
-        self.pdf_parser = LegalPDFParser(setup_logger(), 3)
+        self.pdf_parser = LegalPDFParser()
 
     def test_validate_article_marker_for_article_wo_number(self):
         self.assertTrue(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParseState(article_number=1, in_article_section=True))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParsingState(article_number=1, in_article_section=True))
         )
         self.assertTrue(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("1", ParseState(article_number=None, in_article_section=True))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("1", ParsingState(article_number=None, in_article_section=True))
         )
         self.assertTrue(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParseState(article_number=1, in_article_section=False))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParsingState(article_number=1, in_article_section=False))
         )
         self.assertTrue(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("1", ParseState(article_number=None, in_article_section=False))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("1", ParsingState(article_number=None, in_article_section=False))
         )
         self.assertFalse(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParseState(article_number=2, in_article_section=True))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParsingState(article_number=2, in_article_section=True))
         )
         self.assertFalse(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("text", ParseState(article_number=2, in_article_section=True))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("text", ParsingState(article_number=2, in_article_section=True))
         )
         self.assertFalse(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParseState(article_number=2, in_article_section=False))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("2", ParsingState(article_number=2, in_article_section=False))
         )
         self.assertFalse(
-            self.pdf_parser._validate_article_marker_for_article_wo_number("text", ParseState(article_number=2, in_article_section=False))
+            self.pdf_parser._validate_article_marker_for_article_wo_number("text", ParsingState(article_number=2, in_article_section=False))
         )
 
     def test_validate_paragraph_marker(self):
-        self.assertTrue(self.pdf_parser._validate_paragraph_marker(1, ParseState(paragraph_number=None)))
-        self.assertTrue(self.pdf_parser._validate_paragraph_marker(2, ParseState(paragraph_number=1)))
-        self.assertFalse(self.pdf_parser._validate_paragraph_marker(2, ParseState(paragraph_number=2)))
+        self.assertTrue(self.pdf_parser._validate_paragraph_marker(1, ParsingState(paragraph_number=None)))
+        self.assertTrue(self.pdf_parser._validate_paragraph_marker(2, ParsingState(paragraph_number=1)))
+        self.assertFalse(self.pdf_parser._validate_paragraph_marker(2, ParsingState(paragraph_number=2)))
 
     def test_flush_buffer(self):
         legal_document_1 = []
         legal_document_2 = [LegalDocumentItem(article_number=1, paragraph_number=None, text="text")]
 
         # Act, should append to legal_document_1
-        self.pdf_parser._flush_buffer(legal_document_1, ParseState(article_number=1, paragraph_number=None, text="text"))
+        self.pdf_parser._flush_buffer(legal_document_1, ParsingState(article_number=1, paragraph_number=None, text="text"))
         self.assertEqual(legal_document_1, legal_document_2)
 
         # Act, should append to legal_document_2
-        self.pdf_parser._flush_buffer(legal_document_2, ParseState(article_number=2, paragraph_number=1, text="text"))
+        self.pdf_parser._flush_buffer(legal_document_2, ParsingState(article_number=2, paragraph_number=1, text="text"))
         self.assertEqual(
             legal_document_2,
             [
@@ -89,6 +89,7 @@ class TestParserCore(unittest.TestCase):
 
     def test_parse_body(self):
         parsing_rules = ParsingRules(
+            header_lines_to_skip=3,
             end_marker=END_OF_BODY_MARKER,
             paragraph_pattern=BODY_PARAGRAPH_PATTERN,
             ordered_list_pattern=BODY_ORDERED_LIST_PATTERN,
@@ -247,6 +248,7 @@ class TestParserCore(unittest.TestCase):
 
     def test_parse_elucidation(self):
         parsing_rules = ParsingRules(
+            header_lines_to_skip=3,
             end_marker=END_OF_ELUCIDATION_MARKER,
             paragraph_pattern=ELUCIDATION_PARAGRAPH_PATTERN,
             ordered_list_pattern=ELUCIDATION_ORDERED_LIST_PATTERN,
