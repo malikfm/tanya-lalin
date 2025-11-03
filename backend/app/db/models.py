@@ -1,4 +1,3 @@
-import enum
 from datetime import datetime
 from typing import Optional
 
@@ -7,13 +6,9 @@ from sqlalchemy import DateTime, Enum, Index, Integer, String, Text, UniqueConst
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from config import settings
 from app.db.base import Base
-
-
-class LegalTextType(enum.Enum):
-    BODY = "body"
-    ELUCIDATION = "elucidation"
+from config import settings
+from enums import LegalTextType
 
 
 class LegalTextChunk(Base):

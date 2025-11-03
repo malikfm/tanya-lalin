@@ -1,57 +1,16 @@
-from dataclasses import dataclass
-from re import Pattern
-from typing import List, Optional
+from typing import List
 
-from loguru._logger import Logger
+from loguru import logger
 from tqdm import tqdm
 
-
-@dataclass
-class LegalDocumentItem:
-    article_number: int
-    paragraph_number: Optional[int]
-    text: str
-
-
-@dataclass
-class ParsingRules:
-    end_marker: str
-    paragraph_pattern: Pattern
-    ordered_list_pattern: Pattern
-    article_pattern: Pattern
-    article_wo_number_pattern: Pattern
-    section_marker_patterns: List[Pattern]
-    skip_patterns: List[Pattern]
-
-
-@dataclass
-class ParseState:
-    article_number: Optional[int] = None
-    paragraph_number: Optional[int] = None
-    text: str = ""
-    in_article_section: bool = False
-    prev_was_article_wo_number: bool = False
+from ingestions.models import LegalDocumentItem, ParsingState, ParsingRules
 
 
 class LegalPDFParser:
-    """
-    Parser for legal documents with separate body and elucidation sections.
-
-    This parser operates on pages of pre-extracted text chunks (a list of lists of strings),
-    skipping header lines on each page and applying a series of regex-based parsing rules
-    to identify structural elements such as articles and paragraphs.
-
-    Parsing behavior is configured through a `ParsingRules` object containing the relevant
-    regex patterns and markers.
-    """
-    def __init__(self, logger: Logger, header_lines_to_skip: int) -> None:
-        self.logger = logger
-        self.header_lines_to_skip = header_lines_to_skip
-
     @staticmethod
-    def _validate_article_marker_for_article_wo_number(chunk: str, state: ParseState):
-        """Determine whether the current text chunk represents an article number
-        following an article header without a number (e.g., "Pasal" followed by "3" on the next line).
+    def _validate_article_marker_for_article_wo_number(chunk: str, state: ParsingState) -> bool:
+        """Determine whether the current text chunk represents an article number following an article header
+        without a number (e.g., "Pasal" followed by "3" on the next line).
 
         This validation helps handle cases where article markers are split across lines.
 
@@ -77,7 +36,7 @@ class LegalPDFParser:
         )
 
     @staticmethod
-    def _validate_paragraph_marker(paragraph_number_candidate: int, state: ParseState):
+    def _validate_paragraph_marker(paragraph_number_candidate: int, state: ParsingState) -> bool:
         """Validate whether a detected paragraph number indicates the start of a new paragraph section.
 
         This ensures the parser only treats sequential numbers (e.g., (1), (2), (3))
@@ -101,6 +60,19 @@ class LegalPDFParser:
 
     @staticmethod
     def _append_text(buffer: str, chunk: str, is_ordered_list: bool) -> str:
+        """Append text to the buffer with appropriate formatting.
+        
+        For ordered list items, separates lines with newlines, otherwise joins
+        with spaces. This maintains proper formatting for different types of content.
+        
+        Args:
+            buffer (str): Existing text buffer.
+            chunk (str): Text chunk to append.
+            is_ordered_list (bool): True if the chunk is part of an ordered list.
+        
+        Returns:
+            str: Combined text with appropriate formatting.
+        """
         if not chunk:
             return ""
         
@@ -108,29 +80,55 @@ class LegalPDFParser:
             return f"{buffer}\n{chunk}" if buffer else chunk
         return f"{buffer} {chunk}" if buffer else chunk
 
-    def _flush_buffer(self, legal_document: List[LegalDocumentItem], state: ParseState) -> None:
+    def _flush_buffer(self, legal_document: List[LegalDocumentItem], state: ParsingState) -> None:
+        """Flush the current parsing state to a new LegalDocumentItem and add to document.
+        
+        This method creates a new LegalDocumentItem from the current state variables
+        and appends it to the legal document list if the text is not empty.
+        
+        Args:
+            legal_document (List[LegalDocumentItem]): The list to append the item to.
+            state (ParsingState): Current parsing state containing article/paragraph info.
+        """
         if state.text.strip():
-            self.logger.debug(f"Flush article: {state.article_number}, paragraph: {state.paragraph_number}")
+            logger.debug(f"Flush article: {state.article_number}, paragraph: {state.paragraph_number}")
             legal_document.append(
-                LegalDocumentItem(state.article_number, state.paragraph_number, state.text.strip())
+                LegalDocumentItem(
+                    article_number=state.article_number,
+                    paragraph_number=state.paragraph_number,
+                    text=state.text.strip()
+                )
             )
 
     def parse(self, pages: List[List[str]], parsing_rules: ParsingRules) -> List[LegalDocumentItem]:
-        state = ParseState()
+        """Parse a list of page texts into structured legal document items.
+        
+        This is the main parsing method that processes pages of text according to
+        the provided parsing rules, identifying structural elements like articles,
+        paragraphs, and sections, and organizing them into LegalDocumentItem objects.
+        
+        Args:
+            pages (List[List[str]]): List of pages, each containing a list of text lines.
+            parsing_rules (ParsingRules): Rules defining how to parse the document structure.
+        
+        Returns:
+            List[LegalDocumentItem]: List of structured legal document items.
+        """
+        state = ParsingState()
         legal_document = []
         
         for page_chunks in tqdm(pages, "Pages"):
-            for chunk in page_chunks[self.header_lines_to_skip:]:
+            for chunk in page_chunks[parsing_rules.header_lines_to_skip:]:
                 if chunk == parsing_rules.end_marker:
-                    self.logger.debug(f"End of pages: {chunk}")
+                    logger.debug(f"End of pages: {chunk}")
                     break
 
                 if any(pattern.match(chunk) for pattern in parsing_rules.skip_patterns):
-                    self.logger.debug(f"Skip: {chunk}")
+                    logger.debug(f"Skip: {chunk}")
                     continue
 
                 if any(pattern.match(chunk) for pattern in parsing_rules.section_marker_patterns):
-                    self.logger.debug(f"Out of section: {chunk}")
+                    logger.debug(f"Out of section: {chunk}")
                     state.in_article_section = False
                     continue
 
@@ -141,13 +139,13 @@ class LegalPDFParser:
                     state.paragraph_number = None
                     state.text = ""
                     state.in_article_section = True
-                    self.logger.debug(f"New article section")
-                    self.logger.debug(f"Current article: {state.article_number}")
+                    logger.debug(f"New article section")
+                    logger.debug(f"Current article: {state.article_number}")
                     continue
 
                 # Edge case: "Pasal" (article) without number — next chunk might contain the article number
                 if parsing_rules.article_wo_number_pattern.match(chunk):
-                    self.logger.debug(f"Article without number detected: {chunk}")
+                    logger.debug(f"Article without number detected: {chunk}")
                     state.prev_was_article_wo_number = True
                     continue
 
@@ -160,12 +158,12 @@ class LegalPDFParser:
                         state.paragraph_number = None
                         state.text = ""
                         state.in_article_section = True
-                        self.logger.debug(f"New article section")
-                        self.logger.debug(f"Current article: {state.article_number}")
+                        logger.debug(f"New article section")
+                        logger.debug(f"Current article: {state.article_number}")
                         continue
                     else:
                         # The previous chunk (i.e. "Pasal") and the current chunk are still treated as part of the current article’s content
-                        self.logger.debug(f"Still the part of current article")
+                        logger.debug(f"Still the part of current article")
                         chunk = f"Pasal {chunk}"
                 
                 paragraph_match = parsing_rules.paragraph_pattern.match(chunk)
@@ -177,14 +175,14 @@ class LegalPDFParser:
                             self._flush_buffer(legal_document, state)
                         state.paragraph_number = paragraph_number_candidate
                         state.text = ""
-                        self.logger.debug(f"New paragraph section")
-                        self.logger.debug(f"Current article: {chunk}, current paragraph: {state.paragraph_number}")
+                        logger.debug(f"New paragraph section")
+                        logger.debug(f"Current article: {chunk}, current paragraph: {state.paragraph_number}")
                     
                     continue
 
-                # Append the text if it’s part of the article content
+                # Append the text if it's part of the article content
                 if state.in_article_section:
-                    self.logger.debug("Append chunk")
+                    logger.debug("Append chunk")
                     state.text = self._append_text(state.text, chunk, bool(parsing_rules.ordered_list_pattern.match(chunk)))
 
         # Flush the last item
