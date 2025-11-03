@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     db_password: str = "admin"
     db_name: str = "test_db"
     db_schema: str = "test"
-    embedding_dim: int = 3072
+    embedding_dim: int = 768
 
     class Config:
         env_file = ".env"
