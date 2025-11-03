@@ -13,7 +13,6 @@ The chunking process:
 5. Outputs validated chunks to a JSONL file.
 """
 import argparse
-import json
 import re
 from pathlib import Path
 from typing import List
@@ -21,13 +20,13 @@ from typing import List
 import ollama
 from pydantic import ValidationError
 
+from config import settings
 from enums import LegalTextType
 from ingestions.chunker.validation import run_all_validations
 from ingestions.io import write_to_jsonl
 from ingestions.models import LegalDocumentItem, LegalTextChunkDTO
 from logging_setup import setup_logger
 
-EMBEDDING_MODEL = "embeddinggemma"
 OUTPUT_FILE_NAME = "chunks_with_embeddings.jsonl"
 LEGAL_TEXT_SOURCE = "UU_22_2009_LLAJ"
 
@@ -115,7 +114,7 @@ def get_embedding(text: str) -> List[float]:
     Raises:
         Exception: If the Ollama service is unavailable or returns an error.
     """
-    response = ollama.embed(model=EMBEDDING_MODEL, input=text)
+    response = ollama.embed(model=settings.embedding_model, input=text)
     return response["embeddings"][0]
 
 

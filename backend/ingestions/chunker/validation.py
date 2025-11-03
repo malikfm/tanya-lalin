@@ -232,7 +232,7 @@ def validate_retrieval(chunks: List[LegalTextChunkDTO]) -> None:
         
         try:
             # Generate embedding for query
-            query_embedding_response = ollama.embed(model="embeddinggemma", input=query)
+            query_embedding_response = ollama.embed(model=settings.embedding_model, input=query)
             query_embedding = query_embedding_response["embeddings"][0]
             
             # Retrieve top-5 chunks
