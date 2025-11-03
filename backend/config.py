@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     db_name: str = "test_db"
     db_schema: str = "test"
     embedding_dim: int = 768
+    embedding_model: str = "embeddinggemma"
+    llm_model: str = "gpt-oss:120b-cloud"
+    ollama_api_key: str = "test"
 
     class Config:
         env_file = ".env"
