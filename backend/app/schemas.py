@@ -14,7 +14,7 @@ class ChatRequest(BaseModel):
     """
     message: str = Field(..., description="The user's question or message", min_length=1)
     top_k: int = Field(default=5, ge=1, le=20, description="Number of top similar documents to retrieve")
-    min_similarity: float = Field(default=0.3, ge=0.0, le=1.0, description="Minimum similarity threshold for document retrieval")
+    min_similarity: float = Field(default=0.5, ge=0.0, le=1.0, description="Minimum similarity threshold for document retrieval")
 
 
 class RetrievedChunk(BaseModel):
@@ -30,7 +30,7 @@ class RetrievedChunk(BaseModel):
     """
     source: str
     article_number: int
-    paragraph_number: Optional[int]
+    paragraph_number: Optional[int] = Field(default=None)
     chunk_type: str
     text: str
     similarity_score: float
@@ -41,11 +41,11 @@ class ChatResponse(BaseModel):
     
     Attributes:
         query (str): Original user query.
-        response (str): Generated response based on retrieved documents.
+        response (Optional[str]): Generated response based on retrieved documents.
         retrieved_chunks (List[RetrievedChunk]): List of relevant document chunks used to generate the response.
         timestamp (datetime): Time when the response was generated.
     """
     query: str
-    response: str
+    response: Optional[str] = Field(default=None)
     retrieved_chunks: List[RetrievedChunk]
     timestamp: datetime = Field(default_factory=datetime.now)

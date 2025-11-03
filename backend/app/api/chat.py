@@ -1,8 +1,10 @@
+import ollama
 from fastapi import APIRouter, Depends, HTTPException
 from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.core.ollama_client import get_ollama_client
 from app.schemas import ChatRequest, ChatResponse, RetrievedChunk
 from app.services.retrieval import RetrievalService
 from app.services.llm import LLMService
@@ -13,7 +15,8 @@ router = APIRouter()
 @router.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(
     request: ChatRequest,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    ollama_client: ollama.AsyncClient = Depends(get_ollama_client)
 ):
     """Chat endpoint that processes user queries and returns relevant legal information.
     
@@ -35,7 +38,7 @@ async def chat_endpoint(
     try:
         # Initialize services
         retrieval_service = RetrievalService(db)
-        llm_service = LLMService()
+        llm_service = LLMService(ollama_client)
         
         # Retrieve relevant chunks based on the query
         relevant_chunks_with_scores = retrieval_service.retrieve_relevant_chunks_with_scores(
@@ -44,26 +47,20 @@ async def chat_endpoint(
             min_similarity=request.min_similarity
         )
         
-        # Extract just the chunks for LLM processing
-        relevant_chunks = [chunk for chunk, _ in relevant_chunks_with_scores]
-        
         # Generate response using LLM
-        response_text = llm_service.generate_response(request.message, relevant_chunks)
+        response_text = await llm_service.generate_response(request.message, relevant_chunks_with_scores)
         
-        # Format retrieved chunks with similarity scores
         formatted_chunks = []
-        for chunk, score in relevant_chunks_with_scores:
+        for chunk in relevant_chunks_with_scores:
             formatted_chunks.append(RetrievedChunk(
-                id=chunk.id,
-                source=chunk.source,
-                article_number=chunk.article_number,
-                paragraph_number=chunk.paragraph_number,
-                chunk_type=chunk.chunk_type.value,
-                text=chunk.text,
-                similarity_score=score
+                source=chunk["source"],
+                article_number=chunk["article_number"],
+                paragraph_number=chunk["paragraph_number"],
+                chunk_type=chunk["chunk_type"],
+                text=chunk["text"],
+                similarity_score=chunk["similarity_score"]
             ))
         
-        # Create response object
         response = ChatResponse(
             query=request.message,
             response=response_text,
@@ -103,23 +100,23 @@ async def simple_chat_endpoint(
             min_similarity=request.min_similarity
         )
         
-        # Format the response
-        result = {
-            "query": request.message,
-            "retrieved_chunks": [
-                {
-                    "source": chunk["source"],
-                    "article_number": chunk["article_number"],
-                    "paragraph_number": chunk["paragraph_number"],
-                    "chunk_type": chunk["chunk_type"],
-                    "text": chunk["text"],
-                    "similarity_score": chunk["similarity_score"]
-                }
-                for chunk in relevant_chunks_with_scores
-            ]
-        }
+        formatted_chunks = []
+        for chunk in relevant_chunks_with_scores:
+            formatted_chunks.append(RetrievedChunk(
+                source=chunk["source"],
+                article_number=chunk["article_number"],
+                paragraph_number=chunk["paragraph_number"],
+                chunk_type=chunk["chunk_type"],
+                text=chunk["text"],
+                similarity_score=chunk["similarity_score"]
+            ))
         
-        return result
+        response = ChatResponse(
+            query=request.message,
+            retrieved_chunks=formatted_chunks
+        )
+
+        return response
     
     except Exception as e:
         logger.error(f"Error processing simple chat request: {e}")
