@@ -1,31 +1,50 @@
-"""Main FastAPI application for the Indonesian Traffic Law Q&A RAG system."""
+"""Main FastAPI application for Tanya Lalin - Indonesian Traffic Law Q&A."""
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from loguru import logger
 
 from app.api.chat import router as chat_router
 from app.api.health import router as health_router
-from app.core.ollama_client import init_ollama_client
+from app.core.vector_store import get_vector_store
+from app.core.session_store import get_session_store
+from config import settings
 from logging_setup import setup_logger
+
 
 ROUTER_PREFIX = "/api/v1"
 
-logger = setup_logger()
-ollama_client = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.ollama_client = await init_ollama_client()
+    """Application lifespan manager for startup and shutdown events."""
+    # Startup
+    setup_logger()
+    logger.info("Starting Tanya Lalin API...")
+    
+    # Initialize vector store
+    vector_store = get_vector_store()
+    logger.info(f"Vector store initialized with {vector_store.count()} documents")
+    
+    # Initialize session store
+    get_session_store()
+    logger.info("Session store initialized")
+    
     yield
-    await app.state.ollama_client._client.aclose()
+    
+    # Shutdown
+    logger.info("Shutting down Tanya Lalin API...")
 
 
 def create_app() -> FastAPI:
+    """Create and configure the FastAPI application."""
     app = FastAPI(
         title="Tanya Lalin - Indonesian Traffic Law Chat API",
-        description="RAG-based API for answering questions about Indonesian traffic law",
-        version="0.1.0",
+        description=(
+            "RAG-based API for answering questions about Indonesian traffic law "
+            "(UU No. 22 Tahun 2009 tentang Lalu Lintas dan Angkutan Jalan)"
+        ),
+        version="2.0.0",
         docs_url="/docs",
         redoc_url="/redoc",
         openapi_url="/openapi.json",
@@ -35,7 +54,7 @@ def create_app() -> FastAPI:
     # Add CORS middleware
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=["*"],  # Configure appropriately for production
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -53,4 +72,11 @@ app = create_app()
 
 @app.get("/")
 async def root():
-    return {"message": "Tanya Lalin - Indonesian Traffic Law Chat API", "status": "running"}
+    """Root endpoint with API information."""
+    return {
+        "name": "Tanya Lalin",
+        "description": "Indonesian Traffic Law Chat API",
+        "version": "2.0.0",
+        "status": "running",
+        "docs": "/docs"
+    }
