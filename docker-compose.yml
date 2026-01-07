@@ -12,6 +12,7 @@ services:
       - VECTOR_SEARCH_TOP_K=${VECTOR_SEARCH_TOP_K:-10}
       - FINAL_TOP_K=${FINAL_TOP_K:-5}
       - MIN_SIMILARITY=${MIN_SIMILARITY:-0.3}
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
     volumes:
       - chroma_data:/app/data/chroma_db
     expose:

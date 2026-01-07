@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     # Session Configuration
     session_ttl_hours: int = 24
     max_context_messages: int = 10
+    
+    # CORS Configuration
+    cors_origins: str = "*"  # Comma-separated list of allowed origins
 
     class Config:
         env_file = ".env"
