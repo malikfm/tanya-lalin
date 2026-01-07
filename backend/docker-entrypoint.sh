@@ -3,6 +3,9 @@ set -e
 
 SEED_DIR="/app/data/seed"
 
+# Default host (:: for IPv6 dual-stack, 0.0.0.0 for IPv4 only)
+HOST=${HOST:-0.0.0.0}
+
 # Check if ChromaDB has been initialized
 if [ ! -f "/app/data/chroma_db/.initialized" ]; then
     if [ -d "$SEED_DIR" ] && [ "$(ls -A $SEED_DIR)" ]; then
@@ -18,4 +21,4 @@ else
 fi
 
 # Start the application
-exec uvicorn app.main:app --host :: --port $PORT
+exec uvicorn app.main:app --host $HOST --port $PORT
