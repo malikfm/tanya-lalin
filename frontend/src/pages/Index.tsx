@@ -6,7 +6,7 @@ import { Scale, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const SESSION_STORAGE_KEY = "tanya-lalin-session-id";
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 interface ChatResponse {
   session_id: string;

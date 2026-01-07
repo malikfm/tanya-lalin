@@ -1,0 +1,48 @@
+# Dependencies
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
+
+# ChromaDB persistent storage (will be mounted as volume)
+data/chroma_db/
+
+# Old embeddings file (not used with new ingestion)
+data/chunks_with_embeddings.jsonl
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Misc
+.DS_Store
+Thumbs.db
