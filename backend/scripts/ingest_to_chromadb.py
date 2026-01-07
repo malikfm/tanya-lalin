@@ -6,9 +6,6 @@ from pathlib import Path
 from tqdm import tqdm
 from loguru import logger
 
-# Add backend to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 from google import genai
 from config import settings
 from logging_setup import setup_logger
