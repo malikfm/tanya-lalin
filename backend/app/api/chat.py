@@ -14,6 +14,7 @@ from app.services.chat import ChatService
 from app.core.gemini_client import get_gemini_client, GeminiClient
 from app.core.vector_store import get_vector_store, VectorStore
 from app.core.session_store import get_session_store, SessionStore
+from app.constants import ResponseMessages
 
 
 router = APIRouter()
@@ -73,10 +74,19 @@ async def chat_endpoint(
             for chunk in result.get("retrieved_chunks", [])
         ]
         
+        # Don't show sources if response is a "not found" message
+        response_text = result["response"]
+        not_found_responses = (
+            ResponseMessages.NOT_FOUND,
+            ResponseMessages.NO_RELEVANT_CHUNKS
+        )
+        if response_text in not_found_responses:
+            retrieved_chunks = []
+        
         return ChatResponse(
             session_id=result["session_id"],
             query=result["query"],
-            response=result["response"],
+            response=response_text,
             retrieved_chunks=retrieved_chunks
         )
         

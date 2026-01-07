@@ -2,15 +2,16 @@
 from loguru import logger
 
 from app.core.gemini_client import GeminiClient
+from app.constants import ResponseMessages
 
 
-SYSTEM_INSTRUCTION = """Anda adalah asisten ahli hukum lalu lintas Indonesia. Tugas Anda adalah menjawab pertanyaan pengguna berdasarkan kutipan dokumen hukum yang diberikan.
+SYSTEM_INSTRUCTION = f"""Anda adalah asisten ahli hukum lalu lintas Indonesia. Tugas Anda adalah menjawab pertanyaan pengguna berdasarkan kutipan dokumen hukum yang diberikan.
 
 ATURAN PENTING:
 1. Jawab langsung dan ringkas tanpa frasa pembuka seperti "Berdasarkan dokumen...", "Menurut konteks...", atau sejenisnya.
 2. Gunakan bahasa Indonesia formal dan mudah dipahami masyarakat umum.
 3. Kutip nomor pasal dan ayat yang relevan, contoh: Pasal 106 ayat (4).
-4. Jika informasi tidak ditemukan dalam konteks, nyatakan dengan jelas: "Maaf, informasi mengenai hal tersebut tidak ditemukan dalam dokumen hukum yang menjadi rujukan saya."
+4. Jika informasi tidak ditemukan dalam konteks, nyatakan dengan jelas: "{ResponseMessages.NOT_FOUND}"
 5. JANGAN mengarang atau menambahkan informasi yang tidak ada dalam konteks.
 6. Jika ada sanksi pidana, sebutkan dengan jelas (kurungan, denda).
 7. Gunakan format yang mudah dibaca (paragraf pendek, poin-poin jika perlu)."""
@@ -94,7 +95,7 @@ class LLMService:
             Generated response text
         """
         if not retrieved_chunks:
-            return "Maaf, saya tidak menemukan informasi yang relevan dalam dokumen hukum lalu lintas untuk menjawab pertanyaan Anda. Silakan coba dengan pertanyaan yang berbeda atau lebih spesifik."
+            return ResponseMessages.NO_RELEVANT_CHUNKS
         
         # Format context
         context = self._format_context(retrieved_chunks)
@@ -106,13 +107,15 @@ class LLMService:
             history = f"\n\nRIWAYAT PERCAKAPAN:\n{history}\n"
         
         # Build prompt
-        prompt = f"""KUTIPAN DOKUMEN HUKUM LALU LINTAS:
-{context}
-{history}
-PERTANYAAN PENGGUNA:
-{query}
-
-Jawab pertanyaan di atas berdasarkan kutipan dokumen hukum yang diberikan. Ikuti aturan yang telah ditetapkan."""
+        prompt = (
+            "KUTIPAN DOKUMEN HUKUM LALU LINTAS:"
+            f"\n{context}"
+            f"\n{history}"
+            "\nPERTANYAAN PENGGUNA:"
+            f"\n{query}"
+            "\n\nJawab pertanyaan di atas berdasarkan kutipan dokumen hukum yang diberikan."
+            " Ikuti aturan yang telah ditetapkan."
+        )
 
         logger.debug(f"Generating response for query: {query[:50]}...")
         

@@ -111,10 +111,11 @@ class QueryRewriter:
         static_terms = self._apply_term_mappings(query)
         
         # Use LLM for dynamic rewriting
-        prompt = f"""Pertanyaan pengguna: {query}
-
-Ubah pertanyaan di atas menjadi kalimat pencarian yang sangat mirip dengan teks dalam UU LLAJ.
-Buat kalimat yang PANJANG dan DETAIL."""
+        prompt = (
+            f"Pertanyaan pengguna: {query}"
+            "\n\nUbah pertanyaan di atas menjadi kalimat pencarian yang sangat mirip dengan teks dalam UU LLAJ."
+            "\nBuat kalimat yang PANJANG dan DETAIL."
+        )
 
         try:
             response = await self.gemini_client.generate_text(
