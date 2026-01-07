@@ -18,4 +18,4 @@ else
 fi
 
 # Start the application
-exec uvicorn app.main:app --host 0.0.0.0 --port $PORT
+exec uvicorn app.main:app --host :: --port $PORT
