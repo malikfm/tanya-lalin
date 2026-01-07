@@ -34,13 +34,13 @@
 ### 2. Setup Backend
 
 ```bash
-cd backend
-
-# Copy environment file
+# Copy environment file (from project root)
 cp .env.example .env
 
 # Edit .env and add your Gemini API key
 # GEMINI_API_KEY=your-api-key-here
+
+cd backend
 
 # Install dependencies (using uv)
 uv sync
