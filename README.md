@@ -2,9 +2,11 @@
 
 **Tanya Lalin** (short for "Tanya Lalu Lintas", meaning "Ask Traffic") is a RAG-based chatbot that answers questions about Indonesian traffic regulations based on Law No. 22 of 2009 on Road Traffic and Transportation.
 
+🔗 **Live Demo**: [https://tanya-lalin.up.railway.app/](https://tanya-lalin.up.railway.app/)
+
 ## Features
 
-- **Hybrid Search**: Combines vector search (semantic) and keyword search for better retrieval accuracy
+- **Multi-Query Vector Search**: Uses query rewriting with multiple vector searches for better retrieval accuracy
 - **Query Rewriting**: Automatically transforms everyday language into formal legal terminology
 - **Multi-turn Chat**: Supports continuous conversations within a session
 - **Source Citations**: Displays the relevant articles and paragraphs used as the basis for answers
@@ -22,6 +24,13 @@
 - **React + Vite** for the UI framework
 - **Tailwind CSS** for styling
 - **shadcn/ui** for UI components
+
+## Documentation
+
+For detailed documentation, see:
+
+- **[Project Specification](docs/SPECIFICATION.md)** - Requirements, goals, architecture, and API specification
+- **[Implementation Guide](docs/IMPLEMENTATION.md)** - Architecture decisions, challenges faced, limitations, and future improvements
 
 ## Quick Start
 
@@ -124,8 +133,10 @@ tanya-lalin/
 │   └── src/
 │       ├── components/    # React components
 │       └── pages/         # Page components
-└── docs/
-    └── SPECIFICATION.md   # Project specification
+├── docs/
+│   ├── SPECIFICATION.md   # Project specification
+│   └── IMPLEMENTATION.md  # Implementation details
+└── compose.yml            # Docker Compose configuration
 ```
 
 ## API Endpoints
@@ -146,11 +157,12 @@ Environment variables in `.env`:
 GEMINI_API_KEY=your-api-key-here
 
 # Models
-LLM_MODEL=gemini-2.5-flash
-EMBEDDING_MODEL=text-embedding-004
+LLM_MODEL=gemini-2.5-flash-lite
+EMBEDDING_MODEL=gemini-embedding-001
 
 # RAG Configuration
 VECTOR_SEARCH_TOP_K=10
+KEYWORD_SEARCH_TOP_K=10
 FINAL_TOP_K=5
 MIN_SIMILARITY=0.3
 ```
@@ -160,7 +172,7 @@ MIN_SIMILARITY=0.3
 
 1. **Query Rewriting**: When a user asks a question in everyday Indonesian, the system uses an LLM to expand the query with formal legal terminology. For example, "lampu merah" (red light) becomes "Alat Pemberi Isyarat Lalu Lintas" (Traffic Signal Device).
 
-2. **Hybrid Retrieval**: The system performs multiple vector searches using the original query, the expanded legal query, and individual legal terms. Results are combined using Reciprocal Rank Fusion (RRF).
+2. **Multi-Query Retrieval**: The system performs multiple vector searches using the original query, the expanded legal query, and individual legal terms. Results are combined using weighted Reciprocal Rank Fusion (RRF).
 
 3. **Response Generation**: The LLM generates a response based on the retrieved legal text chunks, citing specific articles and paragraphs.
 
