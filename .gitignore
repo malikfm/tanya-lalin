@@ -16,5 +16,8 @@
 # Mac
 .DS_Store
 
+# Output
+data/
+
 # Environment variables
 .env
