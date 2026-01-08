@@ -77,12 +77,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
                     key={index}
                     className="text-xs bg-background/50 rounded-lg p-2 border border-border/30"
                   >
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center mb-1">
                       <span className="font-medium text-primary">
                         {formatArticleRef(chunk)}
-                      </span>
-                      <span className="text-muted-foreground">
-                        {(chunk.similarity_score * 100).toFixed(0)}% relevan
                       </span>
                     </div>
                     <p className="text-muted-foreground line-clamp-3">
