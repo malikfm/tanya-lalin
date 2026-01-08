@@ -1,78 +1,131 @@
-import json
-
-import ollama
+"""LLM service for generating responses based on retrieved context."""
 from loguru import logger
-from typing import List
 
-from config import settings
+from app.core.gemini_client import GeminiClient
+from app.constants import ResponseMessages
+
+
+SYSTEM_INSTRUCTION = f"""Anda adalah asisten ahli hukum lalu lintas Indonesia. Tugas Anda adalah menjawab pertanyaan pengguna berdasarkan kutipan dokumen hukum yang diberikan.
+
+ATURAN PENTING:
+1. Jawab langsung dan ringkas tanpa frasa pembuka seperti "Berdasarkan dokumen...", "Menurut konteks...", atau sejenisnya.
+2. Gunakan bahasa Indonesia formal dan mudah dipahami masyarakat umum.
+3. Kutip nomor pasal dan ayat yang relevan, contoh: Pasal 106 ayat (4).
+4. Jika informasi tidak ditemukan dalam konteks, nyatakan dengan jelas: "{ResponseMessages.NOT_FOUND}"
+5. JANGAN mengarang atau menambahkan informasi yang tidak ada dalam konteks.
+6. Jika ada sanksi pidana, sebutkan dengan jelas (kurungan, denda).
+7. Gunakan format yang mudah dibaca (paragraf pendek, poin-poin jika perlu)."""
 
 
 class LLMService:
-    def __init__(self, ollama_client: ollama.AsyncClient):
-        self.ollama_client = ollama_client
-
-    async def generate_response(self, query: str, relevant_chunks: List[dict]) -> str:
-        """Generate a response based on the user query and relevant document chunks.
+    """Service for generating LLM responses."""
+    
+    def __init__(self, gemini_client: GeminiClient):
+        self.gemini_client = gemini_client
+    
+    def _format_context(self, chunks: list[dict]) -> str:
+        """Format retrieved chunks as context for the LLM.
         
         Args:
-            query (str): Original user query.
-            relevant_chunks (List[dict]): List of relevant document chunks.
+            chunks: List of retrieved document chunks
             
         Returns:
-            str: Generated response based on the query and context.
+            Formatted context string
         """
-        if not relevant_chunks:
-            return "Kami tidak menemukan ketentuan hukum secara langsung berkaitan dengan pertanyaan Anda."
+        if not chunks:
+            return "Tidak ada dokumen yang relevan ditemukan."
         
-        # Format the context from the retrieved chunks
         context_parts = []
-        for chunk in relevant_chunks:
-            context_part = {"sumber": chunk["source"], "pasal": chunk["article_number"]}
-            if chunk["paragraph_number"] is not None:
-                context_part["ayat"] = chunk["paragraph_number"]
-            context_part["potongan_teks"] = chunk["text"]
-            context_part["jenis"] = chunk["chunk_type"]
-            context_parts.append(json.dumps(context_part))
+        for i, chunk in enumerate(chunks, 1):
+            source = chunk.get("source", "UU LLAJ")
+            article = chunk.get("article_number", "?")
+            paragraph = chunk.get("paragraph_number")
+            chunk_type = chunk.get("chunk_type", "body")
+            text = chunk.get("text", "")
+            
+            # Format reference
+            if paragraph:
+                ref = f"Pasal {article} ayat ({paragraph})"
+            else:
+                ref = f"Pasal {article}"
+            
+            type_label = "Penjelasan" if chunk_type == "elucidation" else "Isi"
+            
+            context_parts.append(f"[{i}] {ref} ({type_label}):\n{text}")
         
-        context = "\n".join(context_parts)
+        return "\n\n".join(context_parts)
+    
+    def _format_conversation_history(self, messages: list[dict]) -> str:
+        """Format conversation history for context.
         
-        # Create the prompt with context
+        Args:
+            messages: List of previous messages
+            
+        Returns:
+            Formatted conversation history
+        """
+        if not messages:
+            return ""
+        
+        history_parts = []
+        for msg in messages[-6:]:  # Last 6 messages (3 turns)
+            role = "Pengguna" if msg["role"] == "user" else "Asisten"
+            content = msg["content"]
+            # Truncate long messages
+            if len(content) > 500:
+                content = content[:500] + "..."
+            history_parts.append(f"{role}: {content}")
+        
+        return "\n".join(history_parts)
+    
+    async def generate_response(
+        self,
+        query: str,
+        retrieved_chunks: list[dict],
+        conversation_history: list[dict] | None = None
+    ) -> str:
+        """Generate a response based on user query and retrieved context.
+        
+        Args:
+            query: User query
+            retrieved_chunks: List of relevant document chunks
+            conversation_history: Optional previous conversation messages
+            
+        Returns:
+            Generated response text
+        """
+        if not retrieved_chunks:
+            return ResponseMessages.NO_RELEVANT_CHUNKS
+        
+        # Format context
+        context = self._format_context(retrieved_chunks)
+        
+        # Format conversation history
+        history = ""
+        if conversation_history:
+            history = self._format_conversation_history(conversation_history)
+            history = f"\n\nRIWAYAT PERCAKAPAN:\n{history}\n"
+        
+        # Build prompt
         prompt = (
-            "Anda adalah seorang ahli dalam hukum lalu lintas Indonesia."
-            " Jawablah pertanyaan pengguna secara langsung dan ringkas berdasarkan kutipan dokumen hukum yang diberikan."
-            " Jangan menulis frasa pembuka seperti 'Berdasarkan dokumen yang disediakan', 'Berdasarkan konteks', atau kalimat serupa."
-            " Mulailah jawaban langsung dengan isi jawaban hukum yang relevan."
-            " Jika informasi yang diminta tidak terdapat dalam kutipan, nyatakan hal tersebut dengan jelas, contoh"
-            " 'Informasi yang diminta tidak terdapat dalam dokumen hukum yang menjadi rujukan saya.'"
-            " Gunakan double-quotes jika Anda mengutip 'sumber', 'ayat', 'paragraf', atau 'potongan_teks' dari konteks."
-            " Gunakan double-quotes juga jika Anda ingin menyoroti istilah penting dalam jawaban Anda."
-            " Jawaban harus menggunakan bahasa Indonesia formal."
-            " Setiap istilah dalam konteks yang bukan bahasa Indonesia (kecuali bagian 'potongan_teks') harus diterjemahkan ke padanan istilah hukum yang sesuai."
-            " Bila memungkinkan, sertakan rujukan ayat atau pasal yang relevan."
-            "\n\n---\n\n"
-            "Kutipan dokumen hukum:"
+            "KUTIPAN DOKUMEN HUKUM LALU LINTAS:"
             f"\n{context}"
-            "\n\n---\n\n"
-            "Pertanyaan pengguna:"
+            f"\n{history}"
+            "\nPERTANYAAN PENGGUNA:"
             f"\n{query}"
-            "\n\n---\n\n"
-            "Silakan berikan jawaban akhir sesuai instruksi di atas."
+            "\n\nJawab pertanyaan di atas berdasarkan kutipan dokumen hukum yang diberikan."
+            " Ikuti aturan yang telah ditetapkan."
         )
 
-        logger.debug(f"Query: {query}")
-        logger.debug(f"Context: {context}")
-
-        messages = [
-            {
-                "role": "user",
-                "content": prompt,
-            },
-        ]
+        logger.debug(f"Generating response for query: {query[:50]}...")
         
-        # Generate response using Ollama
-        response = await self.ollama_client.chat(
-            model=settings.llm_model,
-            messages=messages
+        response = await self.gemini_client.generate_text(
+            prompt=prompt,
+            system_instruction=SYSTEM_INSTRUCTION,
+            temperature=0.3
         )
         
-        return response["message"]["content"].strip().replace("*", "")
+        # Clean up response
+        response = response.strip()
+        
+        return response

@@ -3,8 +3,7 @@ from typing import List, Tuple
 
 from loguru import logger
 
-from ingestions.models import ParsingValidationReport
-from ingestions.parser.core import LegalDocumentItem
+from .models import ParsingValidationReport, LegalDocumentItem
 
 
 def check_total_articles(legal_document: List[LegalDocumentItem]) -> int:

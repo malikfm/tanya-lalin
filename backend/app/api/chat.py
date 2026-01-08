@@ -1,124 +1,181 @@
-import ollama
-from fastapi import APIRouter, Depends, HTTPException
+"""Chat API endpoints."""
+from fastapi import APIRouter, HTTPException, Depends
 from loguru import logger
-from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.ollama_client import get_ollama_client
-from app.schemas import ChatRequest, ChatResponse, RetrievedChunk
-from app.services.retrieval import RetrievalService
-from app.services.llm import LLMService
+from app.schemas import (
+    ChatRequest, 
+    ChatResponse, 
+    SessionHistoryResponse,
+    RetrievedChunk,
+    ChatMessage,
+    ErrorResponse
+)
+from app.services.chat import ChatService
+from app.core.gemini_client import get_gemini_client, GeminiClient
+from app.core.vector_store import get_vector_store, VectorStore
+from app.core.session_store import get_session_store, SessionStore
+from app.constants import ResponseMessages
+
 
 router = APIRouter()
 
 
-@router.post("/chat", response_model=ChatResponse)
+def get_chat_service(
+    vector_store: VectorStore = Depends(get_vector_store),
+    gemini_client: GeminiClient = Depends(get_gemini_client),
+    session_store: SessionStore = Depends(get_session_store)
+) -> ChatService:
+    """Dependency injection for ChatService."""
+    return ChatService(vector_store, gemini_client, session_store)
+
+
+@router.post(
+    "/chat",
+    response_model=ChatResponse,
+    responses={500: {"model": ErrorResponse}}
+)
 async def chat_endpoint(
     request: ChatRequest,
-    db: Session = Depends(get_db),
-    ollama_client: ollama.AsyncClient = Depends(get_ollama_client)
+    chat_service: ChatService = Depends(get_chat_service)
 ):
-    """Chat endpoint that processes user queries and returns relevant legal information.
+    """Process a chat message and return AI-generated response.
     
     This endpoint:
-    1. Takes a user query and retrieves relevant legal text chunks.
-    2. Uses an LLM to generate a response based on the relevant chunks.
-    3. Returns both the response and the chunks used for context.
+    1. Takes a user query and optional session ID
+    2. Rewrites the query with legal terminology
+    3. Retrieves relevant legal document chunks using hybrid search
+    4. Generates a response using LLM with retrieved context
+    5. Returns the response with source citations
     
     Args:
-        request (ChatRequest): The user's question and retrieval parameters.
-        db (Session): Database session dependency.
+        request: Chat request with message and optional parameters
         
     Returns:
-        ChatResponse: The generated response with relevant chunks.
-        
-    Raises:
-        HTTPException: If there's an error processing the request.
+        ChatResponse with generated response and retrieved chunks
     """
     try:
-        # Initialize services
-        retrieval_service = RetrievalService(db)
-        llm_service = LLMService(ollama_client)
-        
-        # Retrieve relevant chunks based on the query
-        relevant_chunks_with_scores = retrieval_service.retrieve_relevant_chunks_with_scores(
-            query=request.message,
+        result = await chat_service.chat(
+            message=request.message,
+            session_id=request.session_id,
             top_k=request.top_k,
             min_similarity=request.min_similarity
         )
         
-        # Generate response using LLM
-        response_text = await llm_service.generate_response(request.message, relevant_chunks_with_scores)
+        # Convert retrieved chunks to response format
+        retrieved_chunks = [
+            RetrievedChunk(
+                source=chunk.get("source", ""),
+                article_number=chunk.get("article_number"),
+                paragraph_number=chunk.get("paragraph_number"),
+                chunk_type=chunk.get("chunk_type", "body"),
+                text=chunk.get("text", ""),
+                similarity_score=chunk.get("similarity_score", 0)
+            )
+            for chunk in result.get("retrieved_chunks", [])
+        ]
         
-        formatted_chunks = []
-        for chunk in relevant_chunks_with_scores:
-            formatted_chunks.append(RetrievedChunk(
-                source=chunk["source"],
-                article_number=chunk["article_number"],
-                paragraph_number=chunk["paragraph_number"],
-                chunk_type=chunk["chunk_type"],
-                text=chunk["text"],
-                similarity_score=chunk["similarity_score"]
-            ))
+        # Don't show sources if response is a "not found" message
+        response_text = result["response"]
+        not_found_responses = (
+            ResponseMessages.NOT_FOUND,
+            ResponseMessages.NO_RELEVANT_CHUNKS,
+            ResponseMessages.ERROR
+        )
+        if response_text in not_found_responses:
+            retrieved_chunks = []
         
-        response = ChatResponse(
-            query=request.message,
+        return ChatResponse(
+            session_id=result["session_id"],
+            query=result["query"],
             response=response_text,
-            retrieved_chunks=formatted_chunks
+            retrieved_chunks=retrieved_chunks
         )
         
-        return response
-    
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
-        raise HTTPException(status_code=500, detail="An internal server error occurred. Please try again later.")
+        raise HTTPException(
+            status_code=500,
+            detail="Terjadi kesalahan saat memproses permintaan. Silakan coba lagi."
+        )
 
 
-@router.post("/simple-chat")
-async def simple_chat_endpoint(
-    request: ChatRequest,
-    db: Session = Depends(get_db)
+@router.get(
+    "/chat/{session_id}/history",
+    response_model=SessionHistoryResponse,
+    responses={404: {"model": ErrorResponse}}
+)
+async def get_session_history(
+    session_id: str,
+    chat_service: ChatService = Depends(get_chat_service)
 ):
-    """Simple chat endpoint that returns retrieved chunks without LLM processing.
-    
-    This endpoint retrieves relevant chunks but doesn't generate an LLM response,
-    useful for getting raw document chunks.
+    """Get conversation history for a session.
     
     Args:
-        request (ChatRequest): The user's question and retrieval parameters.
-        db (Session): Database session dependency.
+        session_id: The session ID to retrieve history for
         
     Returns:
-        dict: The retrieved chunks with minimal processing.
+        SessionHistoryResponse with all messages in the session
     """
-    try:
-        retrieval_service = RetrievalService(db)
-        
-        relevant_chunks_with_scores = retrieval_service.retrieve_relevant_chunks_with_scores(
-            query=request.message,
-            top_k=request.top_k,
-            min_similarity=request.min_similarity
+    history = chat_service.get_session_history(session_id)
+    
+    if history is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Session tidak ditemukan atau sudah kadaluarsa."
         )
-        
-        formatted_chunks = []
-        for chunk in relevant_chunks_with_scores:
-            formatted_chunks.append(RetrievedChunk(
-                source=chunk["source"],
-                article_number=chunk["article_number"],
-                paragraph_number=chunk["paragraph_number"],
-                chunk_type=chunk["chunk_type"],
-                text=chunk["text"],
-                similarity_score=chunk["similarity_score"]
-            ))
-        
-        response = ChatResponse(
-            query=request.message,
-            retrieved_chunks=formatted_chunks
+    
+    # Convert messages to response format
+    messages = [
+        ChatMessage(
+            id=msg["id"],
+            role=msg["role"],
+            content=msg["content"],
+            retrieved_chunks=[
+                RetrievedChunk(
+                    source=chunk.get("source", ""),
+                    article_number=chunk.get("article_number"),
+                    paragraph_number=chunk.get("paragraph_number"),
+                    chunk_type=chunk.get("chunk_type", "body"),
+                    text=chunk.get("text", ""),
+                    similarity_score=chunk.get("similarity_score", 0)
+                )
+                for chunk in msg.get("retrieved_chunks", [])
+            ],
+            created_at=msg["created_at"]
         )
+        for msg in history.get("messages", [])
+    ]
+    
+    return SessionHistoryResponse(
+        session_id=history["id"],
+        messages=messages,
+        created_at=history["created_at"],
+        updated_at=history["updated_at"]
+    )
 
-        return response
+
+@router.delete(
+    "/chat/{session_id}",
+    responses={404: {"model": ErrorResponse}}
+)
+async def delete_session(
+    session_id: str,
+    chat_service: ChatService = Depends(get_chat_service)
+):
+    """Delete a chat session and its history.
     
-    except Exception as e:
-        logger.error(f"Error processing simple chat request: {e}")
-        raise HTTPException(status_code=500, detail="An internal server error occurred. Please try again later.")
+    Args:
+        session_id: The session ID to delete
+        
+    Returns:
+        Success message
+    """
+    deleted = chat_service.delete_session(session_id)
     
+    if not deleted:
+        raise HTTPException(
+            status_code=404,
+            detail="Session tidak ditemukan."
+        )
+    
+    return {"message": "Session berhasil dihapus.", "session_id": session_id}

@@ -3,7 +3,7 @@ from typing import List
 from loguru import logger
 from tqdm import tqdm
 
-from ingestions.models import LegalDocumentItem, ParsingState, ParsingRules
+from .models import LegalDocumentItem, ParsingState, ParsingRules
 
 
 class LegalPDFParser:

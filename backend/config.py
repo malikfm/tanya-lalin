@@ -1,21 +1,48 @@
+"""Application configuration using Pydantic Settings."""
 from pydantic_settings import BaseSettings
+from functools import lru_cache
 
 
 class Settings(BaseSettings):
+    """Application settings loaded from environment variables."""
+    
+    # Application
     log_level: str = "INFO"
-    db_host: str = "localhost"
-    db_port: int = 5432
-    db_user: str = "admin"
-    db_password: str = "admin"
-    db_name: str = "test_db"
-    db_schema: str = "test"
-    embedding_dim: int = 768
-    embedding_model: str = "embeddinggemma"
-    llm_model: str = "gpt-oss:120b-cloud"
-    ollama_api_key: str = "test"
+    
+    # Google Gemini API
+    gemini_api_key: str = ""
+    
+    # LLM Configuration
+    llm_model: str = "gemini-2.5-flash-lite"
+    embedding_model: str = "gemini-embedding-001"
+    embedding_dim: int = 3072
+    
+    # ChromaDB
+    chroma_persist_dir: str = "./data/chroma_db"
+    chroma_collection_name: str = "legal_chunks"
+    
+    # RAG Configuration
+    vector_search_top_k: int = 10
+    keyword_search_top_k: int = 10
+    final_top_k: int = 5
+    min_similarity: float = 0.3
+    
+    # Session Configuration
+    session_ttl_hours: int = 24
+    max_context_messages: int = 10
+    
+    # CORS Configuration
+    cors_origins: str = "*"  # Comma-separated list of allowed origins
 
     class Config:
         env_file = ".env"
+        env_file_encoding = "utf-8"
 
 
-settings = Settings()
+@lru_cache
+def get_settings() -> Settings:
+    """Get cached settings instance."""
+    return Settings()
+
+
+settings = get_settings()

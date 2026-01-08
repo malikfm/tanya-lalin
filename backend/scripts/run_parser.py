@@ -11,17 +11,20 @@ The parsing process:
 3. Separates body content from elucidation content.
 4. Validates parsed results for completeness and consistency.
 5. Outputs structured data to JSONL files.
+
+Usage:
+    uv run python -m scripts.run_parser --input-pdf-path "file.pdf" --output-dir ./data ...
 """
 import argparse
 from pathlib import Path
+from typing import Iterator
 
 import pymupdf
 
-from enums import LegalTextType
-from ingestions.models import ParsingRules
-from ingestions.io import write_to_jsonl
-from ingestions.parser.core import LegalPDFParser
-from ingestions.parser.pdf_patterns import (
+from .enums import LegalTextType
+from .models import ParsingRules
+from .pdf_parser import LegalPDFParser
+from .pdf_patterns import (
     PAGE_PATTERN,
     CHAPTER_PATTERN,
     SECTION_PATTERN,
@@ -37,10 +40,22 @@ from ingestions.parser.pdf_patterns import (
     END_OF_BODY_MARKER,
     END_OF_ELUCIDATION_MARKER
 )
-from ingestions.parser.validation import validate_result
+from .parser_validation import validate_result
 from logging_setup import setup_logger
 
 logger = setup_logger()
+
+
+def write_to_jsonl(items: Iterator[str], path: Path) -> None:
+    """Write items to a JSONL file.
+    
+    Args:
+        items: Iterator of JSON strings to write
+        path: Output file path
+    """
+    with open(path, "w", encoding="utf-8") as f:
+        for item in items:
+            f.write(item + "\n")
 
 
 def main() -> int:
@@ -145,10 +160,16 @@ def main() -> int:
         logger.error(f"Invalid {LegalTextType.ELUCIDATION.value}: {elucidation_report}")
         return 1
 
-    logger.info(f"All is good, saving to {output_dir}")
+    logger.info(f"Saving output to {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)
-    write_to_jsonl(map(lambda legal_doc_item: legal_doc_item.model_dump_json(), body), output_dir.joinpath(f"{LegalTextType.BODY.value}.jsonl"))
-    write_to_jsonl(map(lambda legal_doc_item: legal_doc_item.model_dump_json(), elucidation), output_dir.joinpath(f"{LegalTextType.ELUCIDATION.value}.jsonl"))
+    write_to_jsonl(
+        map(lambda legal_doc_item: legal_doc_item.model_dump_json(), body), 
+        output_dir.joinpath(f"{LegalTextType.BODY.value}.jsonl")
+    )
+    write_to_jsonl(
+        map(lambda legal_doc_item: legal_doc_item.model_dump_json(), elucidation), 
+        output_dir.joinpath(f"{LegalTextType.ELUCIDATION.value}.jsonl")
+    )
 
     return 0
 
