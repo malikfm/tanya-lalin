@@ -133,4 +133,4 @@ class LLMService:
             
         except Exception as e:
             logger.error(f"Error generating response: {e}")
-            return "Maaf, terjadi kesalahan saat memproses pertanyaan Anda. Silakan coba lagi."
+            return ResponseMessages.ERROR

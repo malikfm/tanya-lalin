@@ -78,7 +78,8 @@ async def chat_endpoint(
         response_text = result["response"]
         not_found_responses = (
             ResponseMessages.NOT_FOUND,
-            ResponseMessages.NO_RELEVANT_CHUNKS
+            ResponseMessages.NO_RELEVANT_CHUNKS,
+            ResponseMessages.ERROR
         )
         if response_text in not_found_responses:
             retrieved_chunks = []
