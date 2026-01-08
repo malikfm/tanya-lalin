@@ -1,6 +1,6 @@
 [project]
 name = "tanya-lalin"
-version = "2.0.0"
+version = "1.0.0"
 description = "RAG-based chatbot for Indonesian traffic law Q&A"
 authors = [{ name = "Malik Fajar Mubarok", email = "mubarok.malikfajar@gmail.com" }]
 readme = "README.md"
