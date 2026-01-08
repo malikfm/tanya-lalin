@@ -13,9 +13,9 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
     
     # LLM Configuration
-    llm_model: str = "gemini-2.5-flash"
-    embedding_model: str = "text-embedding-004"
-    embedding_dim: int = 768
+    llm_model: str = "gemini-2.5-flash-lite"
+    embedding_model: str = "gemini-embedding-001"
+    embedding_dim: int = 3072
     
     # ChromaDB
     chroma_persist_dir: str = "./data/chroma_db"
