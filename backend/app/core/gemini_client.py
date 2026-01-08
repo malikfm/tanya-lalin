@@ -1,10 +1,19 @@
 """Google Gemini client for LLM and embedding operations."""
 from google import genai
 from google.genai import types
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from loguru import logger
 
 from config import settings
+from app.exceptions import APIQuotaExceededError
+
+
+def _is_retryable_error(exception: Exception) -> bool:
+    """Check if an exception should trigger a retry."""
+    # Don't retry quota exceeded errors
+    if isinstance(exception, APIQuotaExceededError):
+        return False
+    return True
 
 
 class GeminiClient:
@@ -18,7 +27,8 @@ class GeminiClient:
     
     @retry(
         stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=10)
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((ConnectionError, TimeoutError))
     )
     async def generate_text(
         self, 
@@ -35,6 +45,9 @@ class GeminiClient:
             
         Returns:
             Generated text response
+            
+        Raises:
+            APIQuotaExceededError: When API quota is exceeded (429)
         """
         try:
             config = types.GenerateContentConfig(
@@ -51,6 +64,11 @@ class GeminiClient:
             return response.text
             
         except Exception as e:
+            error_str = str(e)
+            # Check for quota exceeded error (429)
+            if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str or "quota" in error_str.lower():
+                logger.warning(f"API quota exceeded: {e}")
+                raise APIQuotaExceededError(str(e)) from e
             logger.error(f"Error generating text: {e}")
             raise
     

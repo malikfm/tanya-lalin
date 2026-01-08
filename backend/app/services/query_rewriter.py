@@ -4,6 +4,7 @@ import re
 from loguru import logger
 
 from app.core.gemini_client import GeminiClient
+from app.exceptions import APIQuotaExceededError
 
 
 # Common term mappings (Indonesian everyday language -> legal terms)
@@ -145,6 +146,10 @@ class QueryRewriter:
                 "key_phrases": key_phrases,
                 "static_terms": static_terms
             }
+        
+        except APIQuotaExceededError:
+            # Re-raise quota errors to be handled by caller
+            raise
             
         except json.JSONDecodeError as e:
             logger.warning(f"Failed to parse LLM response as JSON: {e}")

@@ -119,18 +119,13 @@ class LLMService:
 
         logger.debug(f"Generating response for query: {query[:50]}...")
         
-        try:
-            response = await self.gemini_client.generate_text(
-                prompt=prompt,
-                system_instruction=SYSTEM_INSTRUCTION,
-                temperature=0.3
-            )
-            
-            # Clean up response
-            response = response.strip()
-            
-            return response
-            
-        except Exception as e:
-            logger.error(f"Error generating response: {e}")
-            return ResponseMessages.ERROR
+        response = await self.gemini_client.generate_text(
+            prompt=prompt,
+            system_instruction=SYSTEM_INSTRUCTION,
+            temperature=0.3
+        )
+        
+        # Clean up response
+        response = response.strip()
+        
+        return response

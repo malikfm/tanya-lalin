@@ -6,6 +6,8 @@ from app.core.vector_store import VectorStore
 from app.core.session_store import ChatSession, SessionStore
 from app.services.retrieval import RetrievalService
 from app.services.llm import LLMService
+from app.constants import ResponseMessages
+from app.exceptions import APIQuotaExceededError
 from config import settings
 
 
@@ -55,20 +57,31 @@ class ChatService:
         
         logger.info(f"Processing chat message in session {session.id}")
         
-        # Step 1: Retrieve relevant chunks
-        retrieved_chunks = await self.retrieval_service.retrieve(
-            query=message,
-            top_k=top_k,
-            min_similarity=min_similarity,
-            use_query_rewriting=True
-        )
+        try:
+            # Step 1: Retrieve relevant chunks
+            retrieved_chunks = await self.retrieval_service.retrieve(
+                query=message,
+                top_k=top_k,
+                min_similarity=min_similarity,
+                use_query_rewriting=True
+            )
+            
+            # Step 2: Generate response
+            response_text = await self.llm_service.generate_response(
+                query=message,
+                retrieved_chunks=retrieved_chunks,
+                conversation_history=history
+            )
         
-        # Step 2: Generate response
-        response_text = await self.llm_service.generate_response(
-            query=message,
-            retrieved_chunks=retrieved_chunks,
-            conversation_history=history
-        )
+        except APIQuotaExceededError as e:
+            logger.warning(f"API quota exceeded during chat: {e}")
+            response_text = ResponseMessages.ERROR
+            retrieved_chunks = []
+        
+        except Exception as e:
+            logger.error(f"Error during chat processing: {e}")
+            response_text = ResponseMessages.ERROR
+            retrieved_chunks = []
         
         # Add assistant response to session
         session.add_message(
