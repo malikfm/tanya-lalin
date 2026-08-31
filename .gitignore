@@ -28,8 +28,9 @@
 *.tsbuildinfo
 npm-debug.log*
 
-# Unlicensed third-party seed data retained locally only
-/corpus/*.parquet
+# Local third-party evaluation seed data
+/corpus/train-00000-of-00001.parquet
+/corpus/test-00000-of-00001.parquet
 /corpus/hukumonline_llaj_seed.json
 
 # Local synthetic-evaluation generation, review, and provider artifacts

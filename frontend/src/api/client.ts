@@ -48,7 +48,7 @@ export async function streamChat(
   handlers: StreamHandlers,
   signal: AbortSignal,
 ): Promise<ChatResponse> {
-  const response = await fetch("/api/v1/chat/stream", {
+  const response = await fetch("/api/v2/chat/stream", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, session_id: sessionId }),
@@ -111,13 +111,13 @@ export async function streamChat(
 }
 
 export async function getHistory(sessionId: string, signal: AbortSignal): Promise<SessionHistory> {
-  const response = await fetch(`/api/v1/chat/${encodeURIComponent(sessionId)}/history`, { signal });
+  const response = await fetch(`/api/v2/chat/${encodeURIComponent(sessionId)}/history`, { signal });
   if (!response.ok) throw await readProblem(response);
   return (await response.json()) as SessionHistory;
 }
 
 export async function deleteSession(sessionId: string): Promise<void> {
-  const response = await fetch(`/api/v1/chat/${encodeURIComponent(sessionId)}`, {
+  const response = await fetch(`/api/v2/chat/${encodeURIComponent(sessionId)}`, {
     method: "DELETE",
   });
   if (!response.ok && response.status !== 404) throw await readProblem(response);

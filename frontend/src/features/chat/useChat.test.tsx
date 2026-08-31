@@ -44,7 +44,7 @@ describe("useChat", () => {
     await act(() => result.current.newChat());
     expect(result.current.messages).toEqual([]);
     expect(localStorage.getItem(SESSION_KEY)).toBeNull();
-    expect(fetchMock).toHaveBeenLastCalledWith("/api/v1/chat/saved-session", {
+    expect(fetchMock).toHaveBeenLastCalledWith("/api/v2/chat/saved-session", {
       method: "DELETE",
     });
   });

@@ -31,7 +31,7 @@ from app.exceptions import ApplicationError
 from app.infrastructure.logging import configure_logging
 from app.infrastructure.rate_limit import configure_rate_limits, limiter
 
-API_PREFIX = "/api/v1"
+API_PREFIX = "/api/v2"
 APP_VERSION = "2.0.0"
 
 

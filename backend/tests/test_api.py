@@ -87,13 +87,13 @@ def parse_sse(response_text):
 
 def test_sync_sse_history_and_delete_share_one_contract(chunk):
     client, _ = make_client(chunk)
-    sync = client.post("/api/v1/chat", json={"message": "Apa dendanya?"})
+    sync = client.post("/api/v2/chat", json={"message": "Apa dendanya?"})
     assert sync.status_code == 200
     result = sync.json()
     assert result["request_id"] == sync.headers["X-Request-ID"]
     assert result["sources"][0]["source_id"] == "S1"
 
-    stream = client.post("/api/v1/chat/stream", json={"message": "Apa dendanya?"})
+    stream = client.post("/api/v2/chat/stream", json={"message": "Apa dendanya?"})
     assert stream.status_code == 200
     events = parse_sse(stream.text)
     assert [event["event"] for event in events] == [
@@ -106,42 +106,46 @@ def test_sync_sse_history_and_delete_share_one_contract(chunk):
     assert events[-1]["data"]["answer"] == result["answer"]
 
     session_id = result["session_id"]
-    history = client.get(f"/api/v1/chat/{session_id}/history")
+    history = client.get(f"/api/v2/chat/{session_id}/history")
     assert history.status_code == 200
     assert history.json()["messages"][-1]["sources"] == result["sources"]
-    assert client.delete(f"/api/v1/chat/{session_id}").status_code == 200
-    missing = client.get(f"/api/v1/chat/{session_id}/history")
+    assert client.delete(f"/api/v2/chat/{session_id}").status_code == 200
+    missing = client.get(f"/api/v2/chat/{session_id}/history")
     assert missing.status_code == 404
     assert missing.headers["content-type"].startswith("application/problem+json")
 
 
 def test_public_health_and_api_not_found(chunk):
     client, _ = make_client(chunk)
-    assert client.get("/api/v1/health/live").json() == {"status": "alive"}
-    ready = client.get("/api/v1/health/ready")
+    assert client.get("/api/v2/health/live").json() == {"status": "alive"}
+    ready = client.get("/api/v2/health/ready")
     assert ready.status_code == 200
     assert ready.json()["corpus_version"] == "test-v1"
     missing = client.get("/api/not-real")
     assert missing.status_code == 404
     assert missing.json()["error_code"] == "not_found"
+    retired = client.get("/api/v1/health/live")
+    assert retired.status_code == 404
+    assert retired.headers["content-type"].startswith("application/problem+json")
+    assert retired.json()["error_code"] == "not_found"
 
 
 def test_readiness_and_validation_errors_are_problem_details(chunk):
     client, _ = make_client(chunk, key="")
-    unavailable = client.get("/api/v1/health/ready")
+    unavailable = client.get("/api/v2/health/ready")
     assert unavailable.status_code == 503
     assert unavailable.json()["error_code"] == "provider_unavailable"
 
-    invalid = client.post("/api/v1/chat", json={"message": "   "})
+    invalid = client.post("/api/v2/chat", json={"message": "   "})
     assert invalid.status_code == 422
     assert invalid.json()["request_id"] == invalid.headers["X-Request-ID"]
     assert invalid.json()["error_code"] == "invalid_request"
-    assert client.get("/api/v1/chat/not-a-uuid/history").status_code == 422
+    assert client.get("/api/v2/chat/not-a-uuid/history").status_code == 422
 
 
 def test_stream_reports_post_open_failure_as_error_event(chunk):
     client, _ = make_client(chunk, fail=True)
-    response = client.post("/api/v1/chat/stream", json={"message": "test"})
+    response = client.post("/api/v2/chat/stream", json={"message": "test"})
     events = parse_sse(response.text)
     assert [event["event"] for event in events][-1] == "error"
     assert events[-1]["data"]["error_code"] == "internal_error"
@@ -149,8 +153,8 @@ def test_stream_reports_post_open_failure_as_error_event(chunk):
 
 def test_chat_rate_limit_uses_trusted_client_address(chunk):
     client, _ = make_client(chunk, chat_limit="1/minute")
-    assert client.post("/api/v1/chat", json={"message": "first"}).status_code == 200
-    limited = client.post("/api/v1/chat", json={"message": "second"})
+    assert client.post("/api/v2/chat", json={"message": "first"}).status_code == 200
+    limited = client.post("/api/v2/chat", json={"message": "second"})
     assert limited.status_code == 429
     assert limited.json()["error_code"] == "rate_limited"
     assert UUID(limited.json()["request_id"])

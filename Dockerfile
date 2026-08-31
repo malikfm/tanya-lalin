@@ -28,5 +28,5 @@ COPY --from=web-builder /build/frontend/dist /app/frontend/dist
 USER appuser
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/live')"
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v2/health/live')"
 CMD ["python", "-m", "uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]

@@ -17,7 +17,7 @@ services:
         - CMD
         - python
         - -c
-        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/live')
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v2/health/live')
       interval: 30s
       timeout: 5s
       start_period: 10s
