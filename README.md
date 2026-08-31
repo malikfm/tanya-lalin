@@ -1,235 +1,94 @@
 # Tanya Lalin
 
-**Tanya Lalin** (short for "Tanya Lalu Lintas", meaning "Ask Traffic") is a RAG-based chatbot that answers questions about Indonesian traffic regulations based on Law No. 22 of 2009 on Road Traffic and Transportation.
+Tanya Lalin is a portfolio-grade RAG application for questions about Indonesian road traffic and transportation rules. It turns everyday Indonesian questions into evidence-grounded answers with traceable citations to official legal text.
 
-🔗 **Live Demo**: [https://tanya-lalin.up.railway.app/](https://tanya-lalin.up.railway.app/)
+The application is intentionally small enough to understand end to end, while demonstrating production-minded architecture: a typed RAG pipeline, exact vector and BM25 retrieval, bounded validation and repair, session persistence, structured errors, rate limiting, observability, automated evaluation, and one deployable web image.
 
-## Features
+> **Corpus scope:** the bundled corpus contains the original text and official elucidation of Law No. 22 of 2009. It does not consolidate later amendments or Constitutional Court decisions. Tanya Lalin is an information tool, not a substitute for professional legal advice.
 
-- **Multi-Query Vector Search**: Uses query rewriting with multiple vector searches for better retrieval accuracy
-- **Query Rewriting**: Automatically transforms everyday language into formal legal terminology
-- **Multi-turn Chat**: Supports continuous conversations within a session
-- **Source Citations**: Displays the relevant articles and paragraphs used as the basis for answers
-- **Fast and Free**: Uses Google Gemini API (free tier) and ChromaDB (local vector store)
+## Highlights
 
-## Tech Stack
+- One FastAPI service serves `/api/v1/*` and the built React application.
+- Hybrid retrieval combines exact cosine search, dual-query BM25, explicit article lookup,
+  family-normalized RRF, and a bounded `gpt-4o-mini` reranker.
+- Answers are emitted atomically only after citation and groundedness validation.
+- Unicode-normalized injection checks and corpus-scope policy stop unsafe or unverifiable
+  requests before retrieval or generation.
+- SSE communicates pipeline progress without exposing unvalidated model tokens.
+- In-memory sessions work with zero infrastructure; Redis is optional.
+- The 823-chunk, 1,536-dimensional corpus index is versioned and bundled.
+- Python and TypeScript are strict, tested, linted, and enforced in CI.
 
-### Backend
-- **FastAPI** for the web framework
-- **Google Gemini** for LLM and embeddings
-- **ChromaDB** for the vector database
-- **Python 3.10+**
+## Quick start
 
-### Frontend
-- **React + Vite** for the UI framework
-- **Tailwind CSS** for styling
-- **shadcn/ui** for UI components
-
-## Documentation
-
-For detailed documentation, see:
-
-- **[Project Specification](docs/SPECIFICATION.md)** - Requirements, goals, architecture, and API specification
-- **[Implementation Guide](docs/IMPLEMENTATION.md)** - Architecture decisions, challenges faced, limitations, and future improvements
-
-## Quick Start
-
-### 1. Get Gemini API Key
-
-1. Visit https://aistudio.google.com/apikey
-2. Create an API key
-3. Copy the API key
-
-### 2. Setup Backend
-
-```bash
-# Copy environment file (from project root)
-cp .env.example .env
-
-# Edit .env and add your Gemini API key
-# GEMINI_API_KEY=your-api-key-here
-
-cd backend
-
-# Install dependencies (using uv)
-uv sync
-```
-
-### 3. Parse PDF and Ingest Data
-
-If you need to parse a new PDF document:
-
-```bash
-# Parse PDF to JSONL (from backend directory)
-uv run python -m scripts.run_parser \
-  --input-pdf-path "../UU 22 Tahun 2009.pdf" \
-  --output-dir ./data \
-  --body-start 2 \
-  --body-end 143 \
-  --elucidation-start 150 \
-  --header-lines-to-skip 3 \
-  --expected-total-articles 326
-```
-
-It will create JSONL files in `data/`. If JSONL files already exist in `data/`, you can skip parsing and directly ingest:
-
-```bash
-# Ingest JSONL data to ChromaDB
-uv run python scripts/ingest_to_chromadb.py
-```
-
-### 4. Run Backend Server
-
-```bash
-uv run uvicorn app.main:app --reload
-```
-
-### 5. Setup Frontend
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Run development server (with backend URL for local dev)
-VITE_API_URL=http://localhost:8000 npm run dev
-```
-
-### 6. Open App
-
-Open http://localhost:5173 in your browser.
-
-## Example Questions
-
-- "Apakah menerobos lampu merah melanggar aturan?" (Is running a red light against the rules?)
-- "Apa sanksi jika tidak memakai helm?" (What is the penalty for not wearing a helmet?)
-- "Apakah bahu jalan boleh dilalui saat macet?" (Can you use the road shoulder during traffic jams?)
-- "Bagaimana aturan tentang motor yang menaiki trotoar?" (What are the rules about motorcycles on sidewalks?)
-- "Apakah menyalip secara zigzag melanggar aturan?" (Is zigzag overtaking against the rules?)
-
-## Project Structure
-
-```
-tanya-lalin/
-├── backend/
-│   ├── app/
-│   │   ├── api/           # API endpoints
-│   │   ├── core/          # Core services (Gemini, ChromaDB, Session)
-│   │   ├── services/      # Business logic (RAG pipeline)
-│   │   └── main.py        # FastAPI app
-│   ├── scripts/
-│   │   ├── run_parser.py          # CLI: Parse PDF to JSONL
-│   │   ├── ingest_to_chromadb.py  # CLI: Ingest JSONL to ChromaDB
-│   │   ├── pdf_parser.py          # PDF parsing logic
-│   │   ├── pdf_patterns.py        # Regex patterns for parsing
-│   │   ├── parser_validation.py   # Parsing validation
-│   │   ├── models.py              # Data models
-│   │   └── enums.py               # Enum definitions
-│   ├── data/              # Parsed JSONL files
-│   ├── config.py          # Configuration
-│   └── logging_setup.py   # Logging configuration
-├── frontend/
-│   └── src/
-│       ├── components/    # React components
-│       └── pages/         # Page components
-├── docs/
-│   ├── SPECIFICATION.md   # Project specification
-│   └── IMPLEMENTATION.md  # Implementation details
-└── compose.yml            # Docker Compose configuration
-```
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/chat` | Send chat message |
-| GET | `/api/v1/chat/{session_id}/history` | Get session history |
-| DELETE | `/api/v1/chat/{session_id}` | Delete session |
-| GET | `/api/v1/health` | Health check |
-
-## Configuration
-
-Environment variables in `.env`:
-
-```bash
-# Google Gemini API
-GEMINI_API_KEY=your-api-key-here
-
-# Models
-LLM_MODEL=gemini-2.5-flash-lite
-EMBEDDING_MODEL=gemini-embedding-001
-
-# RAG Configuration
-VECTOR_SEARCH_TOP_K=10
-KEYWORD_SEARCH_TOP_K=10
-FINAL_TOP_K=5
-MIN_SIMILARITY=0.3
-```
-
-
-## How It Works
-
-1. **Query Rewriting**: When a user asks a question in everyday Indonesian, the system uses an LLM to expand the query with formal legal terminology. For example, "lampu merah" (red light) becomes "Alat Pemberi Isyarat Lalu Lintas" (Traffic Signal Device).
-
-2. **Multi-Query Retrieval**: The system performs multiple vector searches using the original query, the expanded legal query, and individual legal terms. Results are combined using weighted Reciprocal Rank Fusion (RRF).
-
-3. **Response Generation**: The LLM generates a response based on the retrieved legal text chunks, citing specific articles and paragraphs.
-
-## Docker Deployment
-
-### Prerequisites
-
-- Docker and Docker Compose installed
-- Gemini API key
-
-### Deploy with Docker Compose
-
-1. Clone the repository and navigate to the project root:
-
-```bash
-git clone <repository-url>
-cd tanya-lalin
-```
-
-2. Create environment file:
+Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), and Node.js 20.
 
 ```bash
 cp .env.example .env
-# Edit .env and set your GEMINI_API_KEY
+# Set OPENAI_API_KEY in .env
+make install
 ```
 
-3. Build and start the services:
+Run the backend and frontend in separate terminals:
 
 ```bash
-docker-compose up -d --build
+cd backend && uv run uvicorn app.main:create_app --factory --reload
 ```
-
-4. Open http://localhost in your browser.
-
-### Useful Commands
 
 ```bash
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-
-# Rebuild and restart
-docker-compose up -d --build
-
-# View service status
-docker-compose ps
+cd frontend && npm run dev
 ```
 
-### Production Notes
+Open `http://127.0.0.1:5173`. Vite proxies `/api` to FastAPI.
 
-- ChromaDB data is persisted in a Docker volume (`tanya-lalin-chroma-data`)
-- The frontend is served via nginx on port 80
-- API requests are proxied from frontend to backend internally
-- Health checks are configured for both services
+Run all local quality gates with:
+
+```bash
+make check
+```
+
+## Container deployment
+
+```bash
+docker compose up --build
+```
+
+The application is available on `http://127.0.0.1:8000`. To use Redis, set `REDIS_URL=redis://redis:6379/0` and start the profile:
+
+```bash
+docker compose --profile redis up --build
+```
+
+Use one application worker with in-memory sessions. Multiple workers require Redis so all workers share session state.
+
+## Repository map
+
+```text
+backend/app/
+  api/             HTTP contracts, errors, and routes
+  application/     session-aware chat use case
+  rag/             typed query-to-answer pipeline
+  infrastructure/  corpus, providers, sessions, logging, rate limits
+corpus/             committed chunks, vectors, and manifest
+frontend/src/
+  api/              same-origin API and SSE client
+  features/chat/    chat state and interface
+docs/               product, architecture, data, evaluation, and operations
+```
+
+## API summary
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/v1/chat` | Return one validated answer |
+| `POST` | `/api/v1/chat/stream` | Stream progress and one complete answer |
+| `GET` | `/api/v1/chat/{session_id}/history` | Restore a session with citations |
+| `DELETE` | `/api/v1/chat/{session_id}` | Delete a session |
+| `GET` | `/api/v1/health/live` | Process liveness |
+| `GET` | `/api/v1/health/ready` | Corpus, provider, and session readiness |
+
+See [Product specification](docs/PRODUCT_SPEC.md), [Architecture](docs/ARCHITECTURE.md), [Data](docs/DATA.md), [Evaluation](docs/EVALUATION.md), and [Operations](docs/OPERATIONS.md).
 
 ## License
 
-GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
+GNU General Public License v3.0. See [LICENSE](LICENSE).

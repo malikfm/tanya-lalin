@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "corpus_version": "2026.08.27-openai.1",
+  "created_at": "2026-08-27T01:35:40.775108+00:00",
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dimension": 1536,
+  "chunk_count": 823,
+  "chunks_sha256": "b580d4022db09b2d7acf78cb9614e94aa4228dc94c1937d38a9af954a82e703d",
+  "vectors_sha256": "dc0921ac24455afeb7b14bde3be9fd5bc41b23252f713749c5947be38c507e9c",
+  "source_documents": [
+    {
+      "document_id": "uu-22-2009-llaj",
+      "title": "Law No. 22 of 2009 on Road Traffic and Transportation",
+      "regulation_number": "22",
+      "year": 2009,
+      "effective_date": "2009-06-22",
+      "legal_status": "in_force_with_amendments",
+      "official_url": "https://peraturan.bpk.go.id/Details/38654/Uu-No-22-Tahun-2009",
+      "last_verified_at": "2026-08-27",
+      "body_sha256": "bb520a79423480a2a48be67653961592fff1cd23ba6308bc60bd1ce9903cb9f8",
+      "elucidation_sha256": "125232e9c1338737dff3540bd2c6a0a76749ca534bff6ebee81a4af1d6fcf4ea"
+    }
+  ],
+  "coverage_note": "This corpus contains the original 2009 text and official elucidation. It does not consolidate later amendments or Constitutional Court decisions.",
+  "embedding_provider": "openai"
+}
