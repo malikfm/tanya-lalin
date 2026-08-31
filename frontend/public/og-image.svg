@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4f5f0"/>
+  <circle cx="190" cy="90" r="330" fill="#d8eadf"/>
+  <rect x="105" y="145" width="104" height="104" rx="30" fill="#173f34"/>
+  <path d="M137 177h34a14 14 0 0 1 14 14v40h-34a14 14 0 0 1-14-14v-40Z" fill="#d8eadf"/>
+  <text x="105" y="340" font-family="Arial, sans-serif" font-size="84" font-weight="700" fill="#122a23">Tanya Lalin</text>
+  <text x="105" y="410" font-family="Arial, sans-serif" font-size="34" fill="#53655e">Pahami aturan jalan dengan sumber yang dapat ditelusuri.</text>
+</svg>

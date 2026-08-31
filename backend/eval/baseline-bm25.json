@@ -1,0 +1,2633 @@
+{
+  "schema_version": 2,
+  "run_at": "2026-08-29T13:30:40.063500+00:00",
+  "mode": "bm25_only_secret_free_baseline",
+  "release_gate": false,
+  "suite_total_cases": 100,
+  "evaluated_cases": 80,
+  "dataset_version": "2026.08.27.1",
+  "corpus_version": "2026.08.27-openai.1",
+  "configuration": {
+    "query": "original_question",
+    "bm25_search_top_k": 5
+  },
+  "aggregate": {
+    "retrieval": {
+      "evaluated_cases": 80,
+      "mean_article_hit_rate_at_5": 0.8,
+      "mean_article_recall_at_5": 0.6823,
+      "mean_article_mrr_at_5": 0.6994,
+      "mean_article_precision_at_5": 0.2729,
+      "mean_article_ndcg_at_5": 0.6453,
+      "mean_evidence_hit_rate_at_5": 0.8,
+      "mean_evidence_recall_at_5": 0.5164,
+      "mean_evidence_mrr_at_5": 0.6785,
+      "mean_evidence_precision_at_5": 0.255,
+      "mean_evidence_ndcg_at_5": 0.5205
+    }
+  },
+  "by_split": {
+    "development": {
+      "retrieval": {
+        "evaluated_cases": 56,
+        "mean_article_hit_rate_at_5": 0.8214,
+        "mean_article_recall_at_5": 0.7188,
+        "mean_article_mrr_at_5": 0.7223,
+        "mean_article_precision_at_5": 0.2839,
+        "mean_article_ndcg_at_5": 0.6757,
+        "mean_evidence_hit_rate_at_5": 0.8214,
+        "mean_evidence_recall_at_5": 0.5885,
+        "mean_evidence_mrr_at_5": 0.6926,
+        "mean_evidence_precision_at_5": 0.275,
+        "mean_evidence_ndcg_at_5": 0.5769
+      }
+    },
+    "test": {
+      "retrieval": {
+        "evaluated_cases": 24,
+        "mean_article_hit_rate_at_5": 0.75,
+        "mean_article_recall_at_5": 0.5972,
+        "mean_article_mrr_at_5": 0.6458,
+        "mean_article_precision_at_5": 0.2472,
+        "mean_article_ndcg_at_5": 0.5743,
+        "mean_evidence_hit_rate_at_5": 0.75,
+        "mean_evidence_recall_at_5": 0.3481,
+        "mean_evidence_mrr_at_5": 0.6458,
+        "mean_evidence_precision_at_5": 0.2083,
+        "mean_evidence_ndcg_at_5": 0.3891
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "eval-001",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "lajur_jalan_kecelakaan_dan_penggunaan_kiri_kanan",
+      "question": "Saya sedang mengendarai sepeda motor di jalan, lalu terjadi tabrakan dengan mobil. Saya tidak luka, tetapi motor saya rusak ringan dan mobil hanya lecet pada bagian bodi. Dalam kondisi seperti ini, apakah benar sepeda motor memang berada di lajur kiri menurut aturan, dan bagaimana penggolongan kecelakaan tersebut berdasarkan kerusakan yang terjadi?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art108_p3_body",
+        "uu-22-2009:art47_p2_body",
+        "uu-22-2009:art137_p2_body",
+        "uu-22-2009:art106_p8_body",
+        "uu-22-2009:art229_p3_body"
+      ],
+      "retrieved_articles": [
+        "108",
+        "47",
+        "137",
+        "106",
+        "229"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.4,
+        "article_ndcg_at_5": 0.8503449055347546,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-002",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban dan larangan pengemudi",
+      "question": "Apakah pengemudi boleh tetap berkonsentrasi penuh jika sedang meminum minuman yang mengandung alkohol saat mengemudi?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p1_elucidation",
+        "uu-22-2009:art319_body",
+        "uu-22-2009:art79_p1_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art87_p1_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "319",
+        "79",
+        "318",
+        "87"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-003",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "hak dan kewenangan dalam kecelakaan lalu lintas",
+      "question": "Dalam kasus kecelakaan lalu lintas ringan, apakah pihak kepolisian berwenang menahan sementara atau mencabut SIM pengemudi sebelum diputus pengadilan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art89_p2_body",
+        "uu-22-2009:art236_p1_body",
+        "uu-22-2009:art229_p1_body",
+        "uu-22-2009:art236_p2_body",
+        "uu-22-2009:art89_p1_body"
+      ],
+      "retrieved_articles": [
+        "89",
+        "236",
+        "229"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.6666666666666666,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.6666666666666666,
+        "article_ndcg_at_5": 0.7039180890341347,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.46927872602275644
+      }
+    },
+    {
+      "id": "eval-004",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kepatuhan pengemudi kendaraan bermotor",
+      "question": "Kalau seorang pengendara motor di jalan sambil memegang telepon dan tidak benar-benar memperhatikan sekitar, lalu ia hampir menabrak pejalan kaki yang sedang berjalan di tepi jalan karena trotoarnya dipakai pedagang kaki lima, apakah perilaku pengendara itu dapat dinilai tidak sesuai dengan kewajiban berkendara menurut ketentuan yang diberikan, walaupun tidak terjadi tabrakan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art132_p1_body",
+        "uu-22-2009:art132_p2_body",
+        "uu-22-2009:art234_p3_body",
+        "uu-22-2009:art122_p3_body",
+        "uu-22-2009:art131_p3_body"
+      ],
+      "retrieved_articles": [
+        "132",
+        "234",
+        "122",
+        "131"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-005",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban penyediaan dan pemeliharaan fasilitas terminal",
+      "question": "Di terminal penumpang, apakah penyelenggara terminal wajib menyediakan fasilitas terminal yang memenuhi persyaratan keselamatan dan keamanan serta memeliharanya?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art38_p1_body",
+        "uu-22-2009:art39_p2_body",
+        "uu-22-2009:art38_p3_body",
+        "uu-22-2009:art41_p1_body",
+        "uu-22-2009:art33_p2_body"
+      ],
+      "retrieved_articles": [
+        "38",
+        "39",
+        "41",
+        "33"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.5855700749881525
+      }
+    },
+    {
+      "id": "eval-006",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban persyaratan kendaraan dan pelayanan angkutan umum",
+      "question": "Apakah sebuah mobil bus yang dipakai untuk angkutan umum tetap harus memenuhi persyaratan teknis dan laik jalan, dan apakah ada ketentuan yang juga mewajibkan perusahaan angkutan umum memenuhi standar pelayanan minimal? Mohon sebutkan pasal yang relevan.",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art141_p1_body",
+        "uu-22-2009:art22_p1_body",
+        "uu-22-2009:art198_p1_body",
+        "uu-22-2009:art48_p1_body",
+        "uu-22-2009:art161_body"
+      ],
+      "retrieved_articles": [
+        "141",
+        "22",
+        "198",
+        "48",
+        "161"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.6666666666666666,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.4,
+        "article_ndcg_at_5": 0.6713860725233041,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.4,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.48522855511632257
+      }
+    },
+    {
+      "id": "eval-007",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kendaraan bermotor / persyaratan teknis dan laik jalan",
+      "question": "Kalau motor yang dipakai di jalan sudah tidak punya speedometer, apakah dari excerpt ada dasar bahwa itu termasuk masalah persyaratan teknis atau laik jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art48_p1_body",
+        "uu-22-2009:art106_p3_body",
+        "uu-22-2009:art22_p1_body",
+        "uu-22-2009:art61_p1_body",
+        "uu-22-2009:art262_p1_body"
+      ],
+      "retrieved_articles": [
+        "48",
+        "106",
+        "22",
+        "61",
+        "262"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.25,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.3903800499921017
+      }
+    },
+    {
+      "id": "eval-008",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "klasifikasi kecelakaan lalu lintas",
+      "question": "Seorang pengemudi menabrak sepeda motor di jalan sehingga korban hanya mengalami luka ringan dan kendaraan rusak. Menurut UU LLAJ yang diberikan, kecelakaan itu termasuk golongan apa?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art273_p1_body",
+        "uu-22-2009:art229_p3_elucidation",
+        "uu-22-2009:art229_p3_body",
+        "uu-22-2009:art235_p1_elucidation",
+        "uu-22-2009:art310_p2_body"
+      ],
+      "retrieved_articles": [
+        "273",
+        "229",
+        "235",
+        "310"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 0.6309297535714575,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.6666666666666666,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.5307212739772434
+      }
+    },
+    {
+      "id": "eval-009",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "hak prioritas dan penggunaan lampu/sirene kendaraan",
+      "question": "Kalau sebuah mobil pribadi ingin memasang lampu isyarat biru dan sirene agar tampak seperti kendaraan yang harus didahulukan, apakah pemasangan itu memang diperbolehkan menurut ketentuan yang ada?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art135_p1_body",
+        "uu-22-2009:art59_p6_body",
+        "uu-22-2009:art59_p3_body",
+        "uu-22-2009:art59_p5_body",
+        "uu-22-2009:art59_p1_elucidation"
+      ],
+      "retrieved_articles": [
+        "135",
+        "59"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.6666666666666666,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 1.0,
+        "article_ndcg_at_5": 0.7653606369886217,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5714285714285714,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.8,
+        "evidence_ndcg_at_5": 0.830419897363192
+      }
+    },
+    {
+      "id": "eval-010",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "aturan penggunaan lajur/jalur jalan",
+      "question": "Dalam kondisi apa penggunaan jalur Jalan sebelah kanan diperbolehkan menurut Pasal 108?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art108_p2_body",
+        "uu-22-2009:art108_p4_body",
+        "uu-22-2009:art109_p3_body",
+        "uu-22-2009:art109_p1_body",
+        "uu-22-2009:art108_p1_body"
+      ],
+      "retrieved_articles": [
+        "108",
+        "109"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-011",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "helm kewajiban pengemudi sepeda motor",
+      "question": "Kalau saya mengendarai sepeda motor sendiri di jalan, apakah saya wajib memakai helm? Saya kadang lihat orang tidak pakai helm kalau jaraknya dekat, jadi ingin tahu aturan yang tertulis.",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p8_body",
+        "uu-22-2009:art57_p2_body",
+        "uu-22-2009:art291_p2_body",
+        "uu-22-2009:art291_p1_body",
+        "uu-22-2009:art106_p7_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "57",
+        "291"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-012",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "hak utama kendaraan prioritas dan kewajiban pengguna jalan",
+      "question": "Kalau ada kendaraan yang mendapat hak utama menurut Pasal 134, siapa yang wajib mengawal atau memberi isyarat khusus, apakah rambu dan lampu lalu lintas tetap berlaku untuknya, dan apakah pengguna jalan lain harus mematuhi perintah petugas polisi saat pengaturan arus?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art135_p1_body",
+        "uu-22-2009:art135_p3_body",
+        "uu-22-2009:art59_p3_elucidation",
+        "uu-22-2009:art59_p1_elucidation",
+        "uu-22-2009:art106_p4_body"
+      ],
+      "retrieved_articles": [
+        "135",
+        "59",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.3333333333333333,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 0.46927872602275644,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.2222222222222222,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.5531464700081437
+      }
+    },
+    {
+      "id": "eval-013",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kecepatan dan kewajiban pengemudi",
+      "question": "Seorang pengemudi dikabarkan melaju di jalan dengan sangat cepat dan mengabaikan keselamatan pengguna jalan lain. Berdasarkan UU Lalu Lintas yang dipakai dalam korpus ini, apakah ada kewajiban umum bagi pengemudi untuk berkendara dengan wajar dan penuh konsentrasi, serta apakah setiap jalan memang memiliki batas kecepatan paling tinggi yang ditetapkan secara nasional?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art21_p1_body",
+        "uu-22-2009:art106_p1_body",
+        "uu-22-2009:art115_body",
+        "uu-22-2009:art21_p2_body",
+        "uu-22-2009:art283_body"
+      ],
+      "retrieved_articles": [
+        "21",
+        "106",
+        "115",
+        "283"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.9674679834891693
+      }
+    },
+    {
+      "id": "eval-014",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "dasar hukum dan kewenangan pengaturan lalu lintas/parkir",
+      "question": "Mohon dijelaskan, menurut UU Lalu Lintas dan Angkutan Jalan, apa pengertian parkir dan pasal-pasal mana yang menunjukkan bahwa pengaturan parkir termasuk bagian dari penyelenggaraan Lalu Lintas dan Angkutan Jalan oleh pemerintah?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art43_p4_body",
+        "uu-22-2009:art180_p1_body",
+        "uu-22-2009:art6_p1_body",
+        "uu-22-2009:art44_body",
+        "uu-22-2009:art245_p2_body"
+      ],
+      "retrieved_articles": [
+        "43",
+        "180",
+        "6",
+        "44",
+        "245"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-015",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi hukum",
+      "question": "Menurut Undang-Undang Nomor 22 Tahun 2009, bagaimana definisi \"Pengguna Jalan\"?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art325_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art320_body",
+        "uu-22-2009:art270_p4_body",
+        "uu-22-2009:art323_body"
+      ],
+      "retrieved_articles": [
+        "325",
+        "324",
+        "320",
+        "270",
+        "323"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-016",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definisi/hak dan kewajiban terkait kecelakaan lalu lintas",
+      "question": "Dalam undang-undang ini, apakah peristiwa tabrakan di jalan yang terjadi tanpa diduga dan tidak disengaja, lalu menimbulkan korban manusia atau kerugian harta benda, termasuk Kecelakaan Lalu Lintas?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art325_body",
+        "uu-22-2009:art320_body",
+        "uu-22-2009:art321_body"
+      ],
+      "retrieved_articles": [
+        "324",
+        "318",
+        "325",
+        "320",
+        "321"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-017",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi-ketentuan-dalam-pasal",
+      "question": "Menurut Pasal 54 ayat (6) dan ayat (7), informasi apa saja yang wajib dimuat masing-masing dalam kartu uji berkala dan tanda uji berkala setelah kendaraan lulus uji berkala?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art54_p5_body",
+        "uu-22-2009:art54_p6_body",
+        "uu-22-2009:art56_body",
+        "uu-22-2009:art54_p7_body",
+        "uu-22-2009:art288_p3_body"
+      ],
+      "retrieved_articles": [
+        "54",
+        "56",
+        "288"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.6509209298071326
+      }
+    },
+    {
+      "id": "eval-018",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "jenis SIM",
+      "question": "Menurut Pasal 77 UU LLAJ, ada berapa jenis Surat Izin Mengemudi, dan apa saja jenisnya?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art77_p2_body",
+        "uu-22-2009:art81_p1_body",
+        "uu-22-2009:art84_body",
+        "uu-22-2009:art80_body",
+        "uu-22-2009:art81_p2_body"
+      ],
+      "retrieved_articles": [
+        "77",
+        "81",
+        "84",
+        "80"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-019",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "interpretasi ketentuan lampu utama sepeda motor",
+      "question": "Saya mengendarai sepeda motor di jalan pada pukul 07.00 dan lampu utama saya tidak dinyalakan. Petugas menyebut itu pelanggaran karena pukul 07.00 dianggap siang. Berdasarkan ketentuan yang diberikan, apakah yang menjadi dasar kewajiban menyalakan lampu utama untuk sepeda motor, dan apakah aturan itu membedakan waktu pagi atau siang secara khusus?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art107_p2_body",
+        "uu-22-2009:art293_p2_body",
+        "uu-22-2009:art285_p1_body",
+        "uu-22-2009:art107_p1_body",
+        "uu-22-2009:art106_p8_body"
+      ],
+      "retrieved_articles": [
+        "107",
+        "293",
+        "285",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.75,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.8048099750039491
+      }
+    },
+    {
+      "id": "eval-020",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi-dan-ruang-lingkup-uji-berkala",
+      "question": "Kendaraan apa saja yang diwajibkan menjalani uji berkala, dan apa saja kegiatan yang termasuk dalam pengujian berkala itu?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art53_p2_body",
+        "uu-22-2009:art53_p1_body",
+        "uu-22-2009:art49_p2_body",
+        "uu-22-2009:art54_p5_body",
+        "uu-22-2009:art60_p2_body"
+      ],
+      "retrieved_articles": [
+        "53",
+        "49",
+        "54",
+        "60"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-021",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kendaraan_bermotor_persyaratan_teknis",
+      "question": "Seorang pengemudi bus kota ingin memastikan kendaraannya layak dioperasikan di jalan. Berdasarkan ketentuan yang diberikan, apa yang harus dipenuhi oleh kendaraan bermotor tersebut, dan unsur apa saja yang termasuk dalam persyaratan teknis serta laik jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art48_p1_body",
+        "uu-22-2009:art22_p1_body",
+        "uu-22-2009:art106_p3_body",
+        "uu-22-2009:art61_p1_body",
+        "uu-22-2009:art119_p2_body"
+      ],
+      "retrieved_articles": [
+        "48",
+        "22",
+        "106",
+        "61",
+        "119"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.25,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.3903800499921017
+      }
+    },
+    {
+      "id": "eval-022",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "UU LLAJ Pasal 272 - peralatan elektronik sebagai alat bukti",
+      "question": "Dalam penindakan pelanggaran lalu lintas, apa fungsi peralatan elektronik dan bagaimana kedudukan hasil penggunaannya di pengadilan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art272_p1_body",
+        "uu-22-2009:art272_p2_body",
+        "uu-22-2009:art263_p3_body",
+        "uu-22-2009:art267_p1_body",
+        "uu-22-2009:art260_p2_body"
+      ],
+      "retrieved_articles": [
+        "272",
+        "263",
+        "267",
+        "260"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.6666666666666666,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.7653606369886217
+      }
+    },
+    {
+      "id": "eval-023",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kewenangan penegakan lalu lintas dan perlengkapan kendaraan",
+      "question": "Kalau saya sedang naik sepeda motor di jalan dan polisi lalu lintas sedang melakukan patroli, apakah polisi itu memang berwenang melakukan pengaturan, penjagaan, pengawalan, dan patroli lalu lintas, serta menindak pelanggaran lalu lintas? Saya juga ingin tahu, apakah sepeda motor yang dioperasikan di jalan wajib dilengkapi perlengkapan kendaraan, dan apakah helm standar nasional Indonesia termasuk di dalamnya?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p8_body",
+        "uu-22-2009:art57_p2_body",
+        "uu-22-2009:art106_p7_body",
+        "uu-22-2009:art12_body",
+        "uu-22-2009:art200_p3_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "57",
+        "12",
+        "200"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.6666666666666666,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 0.5307212739772434,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.4144299250118475
+      }
+    },
+    {
+      "id": "eval-024",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kewajiban registrasi kendaraan dan pengemudi",
+      "question": "Kalau seseorang mengemudikan sepeda motor di jalan tetapi STNK motor itu belum ada pengesahan tahunannya, apakah kondisi itu sudah tidak sesuai dengan kewajiban yang disebut dalam undang-undang? Bagaimana jika pengemudinya tetap punya SIM?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art270_p3_body",
+        "uu-22-2009:art106_p8_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art319_body"
+      ],
+      "retrieved_articles": [
+        "270",
+        "106",
+        "324",
+        "318",
+        "319"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-025",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definisi kendaraan dan kelengkapan registrasi",
+      "question": "Saya sedang menyusun laporan internal setelah melihat sebuah mobil barang beroperasi di jalan tanpa STNK dan tanpa tanda nomor kendaraan bermotor. Berdasarkan ketentuan yang diberikan, apakah kendaraan seperti itu termasuk kategori kendaraan bermotor, dan dokumen apa saja yang wajib melekat saat dioperasikan di jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art68_p1_body",
+        "uu-22-2009:art69_p1_body",
+        "uu-22-2009:art106_p5_body",
+        "uu-22-2009:art119_p1_body",
+        "uu-22-2009:art162_p1_body"
+      ],
+      "retrieved_articles": [
+        "68",
+        "69",
+        "106",
+        "119",
+        "162"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.46927872602275644
+      }
+    },
+    {
+      "id": "eval-026",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "lampu kendaraan / kewajiban menyalakan lampu utama",
+      "question": "Dalam keadaan apa pengemudi kendaraan bermotor wajib menyalakan lampu utama, dan kapan pengemudi sepeda motor juga wajib menyalakannya pada siang hari?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art107_p2_body",
+        "uu-22-2009:art107_p1_body",
+        "uu-22-2009:art293_p2_body",
+        "uu-22-2009:art121_p1_body",
+        "uu-22-2009:art106_p8_body"
+      ],
+      "retrieved_articles": [
+        "107",
+        "293",
+        "121",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.6666666666666666,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.7653606369886217
+      }
+    },
+    {
+      "id": "eval-027",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "dasar hukum fungsi/pengelolaan jalan dan forum koordinasi",
+      "question": "Di lingkungan tempat saya tinggal, pemda sering memasang rambu, marka, dan fasilitas penunjang lain di jalan umum untuk mengurangi macet dan menjaga keselamatan pengguna jalan. Dalam hukum ini, apa dasar yang menyebut bahwa perlengkapan jalan memang wajib ada di jalan yang digunakan untuk lalu lintas umum, dan siapa yang menjadi wadah koordinasi antarinstansi jika masalah lalu lintas itu perlu diselesaikan bersama?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art25_p1_body",
+        "uu-22-2009:art13_p3_body",
+        "uu-22-2009:art118_body",
+        "uu-22-2009:art43_p3_body",
+        "uu-22-2009:art1_body"
+      ],
+      "retrieved_articles": [
+        "25",
+        "13",
+        "118",
+        "43",
+        "1"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.4,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.5531464700081437
+      }
+    },
+    {
+      "id": "eval-028",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "larangan berkendara / konsentrasi saat mengemudi",
+      "question": "Apakah pengemudi kendaraan bermotor boleh menggunakan telepon saat mengemudi di jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art79_p1_body",
+        "uu-22-2009:art84_body",
+        "uu-22-2009:art121_p1_body",
+        "uu-22-2009:art106_p1_elucidation",
+        "uu-22-2009:art106_p5_body"
+      ],
+      "retrieved_articles": [
+        "79",
+        "84",
+        "121",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 0.25,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 0.2640681225725909,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 0.25,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.2640681225725909
+      }
+    },
+    {
+      "id": "eval-029",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "hak korban kecelakaan lalu lintas",
+      "question": "Apakah korban kecelakaan lalu lintas berhak memperoleh santunan dari perusahaan asuransi?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art240_body",
+        "uu-22-2009:art237_p1_body",
+        "uu-22-2009:art241_body",
+        "uu-22-2009:art214_p1_body",
+        "uu-22-2009:art214_p2_body"
+      ],
+      "retrieved_articles": [
+        "240",
+        "237",
+        "241",
+        "214"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-030",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kepemilikan dan dokumen kendaraan bermotor",
+      "question": "Dalam ketentuan ini, dokumen apa yang berkaitan dengan identitas pemilik kendaraan bermotor, dan apakah STNK berlaku terus-menerus seperti BPKB? Selain itu, berapa lama STNK dan TNKB berlaku menurut pasal yang tersedia?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art68_p2_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art54_p6_body",
+        "uu-22-2009:art4_body",
+        "uu-22-2009:art321_body"
+      ],
+      "retrieved_articles": [
+        "68",
+        "318",
+        "54",
+        "4",
+        "321"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.25,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.3903800499921017
+      }
+    },
+    {
+      "id": "eval-031",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "batas kecepatan / sanksi pelanggaran",
+      "question": "Apa dasar penetapan batas kecepatan paling tinggi menurut Pasal 21, dan apa sanksi jika pengemudi melanggar ketentuan batas kecepatan paling tinggi atau paling rendah?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art115_body",
+        "uu-22-2009:art21_p1_body",
+        "uu-22-2009:art287_p5_body",
+        "uu-22-2009:art21_p2_body",
+        "uu-22-2009:art21_p3_body"
+      ],
+      "retrieved_articles": [
+        "115",
+        "21",
+        "287"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.6666666666666666,
+        "article_ndcg_at_5": 0.6934264036172708,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.7328286204777911
+      }
+    },
+    {
+      "id": "eval-032",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kepatuhan teknis kendaraan bermotor / kewenangan penegakan hukum",
+      "question": "Menurut Pasal 48, apa kewajiban umum setiap kendaraan bermotor yang dioperasikan di jalan, dan unsur persyaratan teknis apa saja yang disebutkan? Selain itu, instansi mana yang disebut berwenang menangani penegakan hukum di bidang lalu lintas dan angkutan jalan menurut Pasal 7?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art48_p1_body",
+        "uu-22-2009:art61_p1_body",
+        "uu-22-2009:art267_p1_body",
+        "uu-22-2009:art9_body",
+        "uu-22-2009:art5_p3_body"
+      ],
+      "retrieved_articles": [
+        "48",
+        "61",
+        "267",
+        "9",
+        "5"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.46927872602275644
+      }
+    },
+    {
+      "id": "eval-033",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban saat pemeriksaan kendaraan",
+      "question": "Saat ada pemeriksaan Kendaraan Bermotor di jalan, dokumen apa saja yang wajib ditunjukkan pengemudi menurut Pasal 106 ayat (5)?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p5_body",
+        "uu-22-2009:art121_p1_body",
+        "uu-22-2009:art267_p1_body",
+        "uu-22-2009:art288_p2_body",
+        "uu-22-2009:art288_p1_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "121",
+        "267",
+        "288"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-034",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "ketentuan parkir di luar ruang milik jalan",
+      "question": "Saya ingin tahu, apakah penyediaan fasilitas parkir untuk umum boleh dilakukan di dalam Ruang Milik Jalan, atau harus di luar Ruang Milik Jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art43_p1_body",
+        "uu-22-2009:art43_p2_body",
+        "uu-22-2009:art43_p3_body",
+        "uu-22-2009:art99_p1_elucidation",
+        "uu-22-2009:art139_p4_body"
+      ],
+      "retrieved_articles": [
+        "43",
+        "99",
+        "139"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-035",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definition-and-road-use",
+      "question": "Saya mengendarai sepeda motor di jalan raya. Karena terburu-buru, saya sempat membalas pesan di ponsel sambil tetap melaju. Menurut UU LLAJ, bagaimana kewajiban pengemudi dalam kondisi seperti ini, dan apakah pengemudi juga wajib mengutamakan pejalan kaki serta pesepeda?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p2_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art107_p1_body",
+        "uu-22-2009:art107_p2_body",
+        "uu-22-2009:art284_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "318",
+        "107",
+        "284"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.25,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.3903800499921017
+      }
+    },
+    {
+      "id": "eval-036",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "lampu isyarat dan kewenangan petugas lalu lintas",
+      "question": "Dalam keadaan tertentu untuk kelancaran lalu lintas, apakah petugas kepolisian dapat memerintahkan kendaraan lain untuk jalan terus meskipun ada kendaraan bermotor yang memiliki hak utama karena memakai lampu isyarat biru dan sirene?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art59_p1_elucidation",
+        "uu-22-2009:art135_p1_body",
+        "uu-22-2009:art59_p3_body",
+        "uu-22-2009:art104_p1_body",
+        "uu-22-2009:art59_p5_body"
+      ],
+      "retrieved_articles": [
+        "59",
+        "135",
+        "104"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.6666666666666666,
+        "article_ndcg_at_5": 0.9197207891481876,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.6,
+        "evidence_mrr_at_5": 0.3333333333333333,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.4468535299918563
+      }
+    },
+    {
+      "id": "eval-037",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "SIM dan syarat usia pengemudi",
+      "question": "Berapa usia paling rendah untuk memperoleh SIM A, SIM C, dan SIM D menurut ketentuan yang diberikan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art81_p2_body",
+        "uu-22-2009:art83_p2_body",
+        "uu-22-2009:art83_p5_body",
+        "uu-22-2009:art242_p1_elucidation",
+        "uu-22-2009:art134_body"
+      ],
+      "retrieved_articles": [
+        "81",
+        "83",
+        "242",
+        "134"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-038",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definisi dasar UU LLAJ dan kewenangan pembinaan",
+      "question": "Saya sedang belajar dasar hukum lalu lintas. Dalam UU LLAJ, siapa yang dimaksud sebagai pengemudi, apa itu jalan, dan lembaga mana yang menangani urusan registrasi dan identifikasi kendaraan bermotor serta pengemudi?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art70_p2_elucidation",
+        "uu-22-2009:art5_p3_body",
+        "uu-22-2009:art7_p2_body",
+        "uu-22-2009:art245_p3_body",
+        "uu-22-2009:art4_body"
+      ],
+      "retrieved_articles": [
+        "70",
+        "5",
+        "7",
+        "245",
+        "4"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.38685280723454163,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.38685280723454163
+      }
+    },
+    {
+      "id": "eval-039",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "lalu lintas umum / etika berkendara",
+      "question": "Dalam konteks etika berkendara, apakah ada ketentuan dalam hukum lalu lintas yang menegaskan tujuan penyelenggaraan lalu lintas agar tercipta etika berlalu lintas, serta kewajiban pengemudi untuk berkonsentrasi dan mengutamakan keselamatan pejalan kaki dan pesepeda?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p2_body",
+        "uu-22-2009:art258_body",
+        "uu-22-2009:art3_body",
+        "uu-22-2009:art208_p2_body",
+        "uu-22-2009:art200_p3_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "258",
+        "3",
+        "208",
+        "200"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.6666666666666666,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.4,
+        "article_ndcg_at_5": 0.7039180890341347,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.4,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.5087403079104241
+      }
+    },
+    {
+      "id": "eval-040",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "cakupan modifikasi kendaraan bermotor",
+      "question": "Saya ingin memastikan cakupan Pasal 52 UU No. 22 Tahun 2009. Apakah perubahan warna kendaraan bermotor, misalnya dengan cat atau stiker, termasuk bentuk \"modifikasi kendaraan bermotor\" yang disebut dalam pasal itu, sehingga otomatis masuk ke kategori modifikasi yang diatur di sana?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art50_p1_body",
+        "uu-22-2009:art52_p1_body",
+        "uu-22-2009:art71_p1_elucidation",
+        "uu-22-2009:art277_body",
+        "uu-22-2009:art51_p2_body"
+      ],
+      "retrieved_articles": [
+        "50",
+        "52",
+        "71",
+        "277",
+        "51"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.6309297535714575,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.25,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.24630238874073
+      }
+    },
+    {
+      "id": "eval-041",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kecepatan kendaraan dan pengujian laik jalan",
+      "question": "Saya sering berkendara di jalan kota. Apakah ada ketentuan bahwa setiap jalan memiliki batas kecepatan paling tinggi, dan apakah pemerintah daerah boleh menetapkan batas setempat demi keselamatan? Selain itu, apa saja yang sekurang-kurangnya diperiksa dalam uji laik jalan kendaraan bermotor?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art21_p3_body",
+        "uu-22-2009:art21_p1_body",
+        "uu-22-2009:art115_body",
+        "uu-22-2009:art21_p2_body",
+        "uu-22-2009:art287_p5_body"
+      ],
+      "retrieved_articles": [
+        "21",
+        "115",
+        "287"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.6,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.6992148198508501
+      }
+    },
+    {
+      "id": "eval-042",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kewajiban pengemudi dan konsentrasi saat berkendara",
+      "question": "Kalau saya mengemudi sambil memakai telepon atau menonton video yang terpasang di kendaraan, apakah itu termasuk melanggar kewajiban berkonsentrasi saat berkendara?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p1_elucidation",
+        "uu-22-2009:art79_p1_body",
+        "uu-22-2009:art106_p5_body",
+        "uu-22-2009:art91_p1_body",
+        "uu-22-2009:art270_p3_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "79",
+        "91",
+        "270"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-043",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi dan tanggung jawab kecelakaan lalu lintas",
+      "question": "Kalau dua mobil saling bersenggolan di jalan karena pengemudinya sama-sama kurang hati-hati, apakah peristiwa itu termasuk Kecelakaan Lalu Lintas, dan bagaimana kewajiban mengganti kerugian jika yang timbul hanya kerusakan kendaraan tanpa korban luka?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art236_p2_body",
+        "uu-22-2009:art310_p2_body",
+        "uu-22-2009:art229_p3_body",
+        "uu-22-2009:art273_p1_body",
+        "uu-22-2009:art188_body"
+      ],
+      "retrieved_articles": [
+        "236",
+        "310",
+        "229",
+        "273",
+        "188"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.6666666666666666,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.4,
+        "article_ndcg_at_5": 0.7039180890341347,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.16666666666666666,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.3391602052736161
+      }
+    },
+    {
+      "id": "eval-044",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi hukum/larangan berkonsentrasi saat mengemudi",
+      "question": "Menurut Pasal 106, apa yang dimaksud dengan pengemudi yang mengemudikan Kendaraan Bermotor dengan \"penuh konsentrasi\", dan apakah penggunaan telepon termasuk hal yang dapat mengganggu konsentrasi itu?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p1_elucidation",
+        "uu-22-2009:art106_p1_body",
+        "uu-22-2009:art283_body",
+        "uu-22-2009:art279_body",
+        "uu-22-2009:art287_p4_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "283",
+        "279",
+        "287"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-045",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "larangan gangguan fungsi jalan dan perlengkapan jalan",
+      "question": "Di lingkungan permukiman saya, ada pihak yang memasang penghalang jalan sehingga kendaraan tersendat dan sebagian orang menganggap itu mengganggu fungsi jalan. Berdasarkan ketentuan yang tersedia, apakah perbuatan yang mengakibatkan gangguan fungsi jalan atau gangguan pada fungsi perlengkapan jalan dilarang, dan pasal mana yang mengaturnya?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art28_p1_body",
+        "uu-22-2009:art28_p2_body",
+        "uu-22-2009:art274_p2_body",
+        "uu-22-2009:art274_p1_body",
+        "uu-22-2009:art58_body"
+      ],
+      "retrieved_articles": [
+        "28",
+        "274",
+        "58"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.6666666666666666,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.8,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-046",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban penyelenggara jalan/perlengkapan jalan",
+      "question": "Kalau suatu jalan umum belum bisa segera diperbaiki karena rusak, kewajiban apa yang disebutkan undang-undang bagi penyelenggara jalan agar pengguna jalan tidak celaka?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art326_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art273_p4_body",
+        "uu-22-2009:art24_p1_body",
+        "uu-22-2009:art24_p2_body"
+      ],
+      "retrieved_articles": [
+        "326",
+        "324",
+        "273",
+        "24"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.25,
+        "article_mrr_at_5": 0.25,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 0.16812753627111746,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.4,
+        "evidence_mrr_at_5": 0.25,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.27727342735504823
+      }
+    },
+    {
+      "id": "eval-047",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "hak utama kendaraan darurat",
+      "question": "Kalau ada ambulans yang sedang mengangkut orang sakit di jalan, apakah kendaraan itu termasuk pengguna jalan yang memperoleh hak utama untuk didahulukan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art134_body",
+        "uu-22-2009:art59_p3_elucidation",
+        "uu-22-2009:art59_p1_elucidation",
+        "uu-22-2009:art242_p1_elucidation",
+        "uu-22-2009:art173_p2_body"
+      ],
+      "retrieved_articles": [
+        "134",
+        "59",
+        "242",
+        "173"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.6666666666666666,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.7653606369886217
+      }
+    },
+    {
+      "id": "eval-048",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "klasifikasi kecelakaan lalu lintas",
+      "question": "Apa saja penggolongan Kecelakaan Lalu Lintas menurut Pasal 229, dan bagaimana ciri umum masing-masing golongan itu?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art183_p1_body",
+        "uu-22-2009:art7_p2_body",
+        "uu-22-2009:art271_p2_body",
+        "uu-22-2009:art230_body",
+        "uu-22-2009:art235_p1_body"
+      ],
+      "retrieved_articles": [
+        "183",
+        "7",
+        "271",
+        "230",
+        "235"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-049",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban pengemudi sepeda motor dan penumpang",
+      "question": "Saya mengendarai sepeda motor di jalan bersama satu penumpang. Saya tidak menggunakan telepon, tidak minum alkohol atau obat, dan menurut saya tetap fokus. Apakah menurut UU No. 22 Tahun 2009 saya wajib memakai helm, dan apakah saya boleh membawa lebih dari satu penumpang?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p9_body",
+        "uu-22-2009:art106_p8_body",
+        "uu-22-2009:art106_p1_elucidation",
+        "uu-22-2009:art106_p7_body",
+        "uu-22-2009:art137_p2_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "137"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.75,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.8318724637288826
+      }
+    },
+    {
+      "id": "eval-050",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definisi/klasifikasi jalan",
+      "question": "Bagaimana pembagian kelas jalan menurut Undang-Undang ini, dan siapa yang menetapkan kelas jalan pada jalan nasional, provinsi, kabupaten, dan kota?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art259_p1_body",
+        "uu-22-2009:art20_p1_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art325_body"
+      ],
+      "retrieved_articles": [
+        "259",
+        "20",
+        "318",
+        "324",
+        "325"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.38685280723454163,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.2960819109658652
+      }
+    },
+    {
+      "id": "eval-051",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definisi hukum",
+      "question": "Kalau saya memesan layanan ojek online untuk mengantar orang dari satu tempat ke tempat lain di jalan, dalam pengertian undang-undang itu termasuk kegiatan apa, dan penumpang di kendaraan itu disebut siapa?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art69_p1_elucidation",
+        "uu-22-2009:art270_p3_body",
+        "uu-22-2009:art142_elucidation",
+        "uu-22-2009:art166_p2_elucidation",
+        "uu-22-2009:art126_body"
+      ],
+      "retrieved_articles": [
+        "69",
+        "270",
+        "142",
+        "166",
+        "126"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-052",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi dan ruang lingkup lalu lintas",
+      "question": "Kalau seseorang mendorong sepeda motornya di jalan, apakah itu masih termasuk lalu lintas menurut undang-undang ini?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art320_body",
+        "uu-22-2009:art259_p1_body",
+        "uu-22-2009:art326_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art321_body"
+      ],
+      "retrieved_articles": [
+        "320",
+        "259",
+        "326",
+        "324",
+        "321"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-053",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "authority_scope",
+      "question": "Apakah penyidik Kepolisian Negara Republik Indonesia di bidang lalu lintas dan angkutan jalan berwenang menghentikan, melarang, atau menunda pengoperasian kendaraan bermotor yang diduga melanggar peraturan berlalu lintas?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art270_p1_body",
+        "uu-22-2009:art260_p1_body",
+        "uu-22-2009:art264_body",
+        "uu-22-2009:art263_p1_body",
+        "uu-22-2009:art259_p2_body"
+      ],
+      "retrieved_articles": [
+        "270",
+        "260",
+        "264",
+        "263",
+        "259"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.6309297535714575,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6309297535714575
+      }
+    },
+    {
+      "id": "eval-054",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban pengemudi dan pejalan kaki dalam lalu lintas",
+      "question": "Jika seorang pejalan kaki menyeberang di luar tempat yang ditentukan karena tidak ada penyeberangan, apa yang wajib diperhatikannya menurut undang-undang ini?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art132_p1_body",
+        "uu-22-2009:art131_p2_body",
+        "uu-22-2009:art132_p2_body",
+        "uu-22-2009:art118_elucidation",
+        "uu-22-2009:art318_body"
+      ],
+      "retrieved_articles": [
+        "132",
+        "131",
+        "118",
+        "318"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.9197207891481876
+      }
+    },
+    {
+      "id": "eval-055",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "SIM / kewajiban memiliki SIM",
+      "question": "Apakah setiap orang yang mengemudikan kendaraan bermotor di jalan wajib punya SIM yang sesuai dengan jenis kendaraannya?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art77_p1_body",
+        "uu-22-2009:art106_p1_body",
+        "uu-22-2009:art106_p2_body",
+        "uu-22-2009:art106_p6_body",
+        "uu-22-2009:art106_p3_body"
+      ],
+      "retrieved_articles": [
+        "77",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-056",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban pengemudi dan kelengkapan kendaraan",
+      "question": "Apakah setiap orang yang mengemudikan kendaraan bermotor di jalan wajib memiliki SIM sesuai jenis kendaraan yang dikemudikan, dan apakah kendaraan bermotor yang dioperasikan di jalan wajib dilengkapi STNK serta TNKB?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art77_p1_body",
+        "uu-22-2009:art57_p1_body",
+        "uu-22-2009:art68_p1_body",
+        "uu-22-2009:art106_p7_body",
+        "uu-22-2009:art106_p1_body"
+      ],
+      "retrieved_articles": [
+        "77",
+        "57",
+        "68",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 0.9197207891481876,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 0.9197207891481876
+      }
+    },
+    {
+      "id": "eval-057",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "denda pelanggaran lalu lintas",
+      "question": "Kalau pengemudi motor melanggar perintah atau larangan yang dinyatakan dengan Alat Pemberi Isyarat Lalu Lintas, berapa denda paling banyak yang dikenakan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art287_p2_body",
+        "uu-22-2009:art95_p2_body",
+        "uu-22-2009:art103_p1_body",
+        "uu-22-2009:art103_p3_body",
+        "uu-22-2009:art287_p1_body"
+      ],
+      "retrieved_articles": [
+        "287",
+        "95",
+        "103"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-058",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "angkutan umum",
+      "question": "Siapa yang wajib menjamin tersedianya angkutan umum untuk jasa angkutan orang dan/atau barang antarkota antarprovinsi serta lintas batas negara?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art139_p1_body",
+        "uu-22-2009:art139_p2_body",
+        "uu-22-2009:art139_p3_body",
+        "uu-22-2009:art166_p1_body",
+        "uu-22-2009:art182_p2_body"
+      ],
+      "retrieved_articles": [
+        "139",
+        "166",
+        "182"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-059",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "aturan-parkir",
+      "question": "Di jalan jenis apa saja fasilitas parkir di dalam Ruang Milik Jalan boleh diselenggarakan menurut ketentuan ini?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art43_p1_body",
+        "uu-22-2009:art43_p3_body",
+        "uu-22-2009:art43_p2_body",
+        "uu-22-2009:art120_body",
+        "uu-22-2009:art43_p4_body"
+      ],
+      "retrieved_articles": [
+        "43",
+        "120"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.5,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6309297535714575
+      }
+    },
+    {
+      "id": "eval-060",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definition and classification",
+      "question": "Kalau saya naik sepeda di jalan umum dan petugas bilang sepeda itu termasuk kendaraan bermotor karena dipakai di lalu lintas jalan, apakah benar? Saya cuma ingin tahu pengelompokan resminya menurut undang-undang ini.",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art259_p1_body",
+        "uu-22-2009:art320_body",
+        "uu-22-2009:art321_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art326_body"
+      ],
+      "retrieved_articles": [
+        "259",
+        "320",
+        "321",
+        "324",
+        "326"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-061",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "lalu lintas - kecelakaan berat, tanggung jawab pengemudi dan bantuan biaya",
+      "question": "Seorang pengemudi kendaraan angkutan umum saat lalai menabrak kendaraan lain hingga ada 1 orang korban meninggal dunia dan 2 orang korban luka. Dalam ketentuan yang tersedia, bagaimana penggolongan kecelakaannya, siapa saja yang wajib memberi bantuan kepada ahli waris atau korban, dan apakah pemberian bantuan itu menghapus tuntutan pidana?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art235_p1_body",
+        "uu-22-2009:art235_p2_body",
+        "uu-22-2009:art235_p1_elucidation",
+        "uu-22-2009:art229_p4_body",
+        "uu-22-2009:art310_p2_body"
+      ],
+      "retrieved_articles": [
+        "235",
+        "229",
+        "310"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.6666666666666666,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.6,
+        "evidence_ndcg_at_5": 0.9674679834891693
+      }
+    },
+    {
+      "id": "eval-062",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kendaraan bermotor / modifikasi / uji tipe",
+      "question": "Apakah modifikasi kendaraan bermotor yang membuat perubahan tipe wajib melalui uji tipe, menurut UU yang diberikan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art50_p1_body",
+        "uu-22-2009:art51_p2_body",
+        "uu-22-2009:art51_p1_body",
+        "uu-22-2009:art277_body",
+        "uu-22-2009:art52_p3_body"
+      ],
+      "retrieved_articles": [
+        "50",
+        "51",
+        "277",
+        "52"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-063",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kewenangan petugas lalu lintas",
+      "question": "Dalam keadaan tertentu untuk ketertiban dan kelancaran lalu lintas, apakah petugas Kepolisian Negara Republik Indonesia boleh memberhentikan arus lalu lintas atau pengguna jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art104_p1_body",
+        "uu-22-2009:art97_p1_body",
+        "uu-22-2009:art266_p3_body",
+        "uu-22-2009:art129_p3_body",
+        "uu-22-2009:art227_body"
+      ],
+      "retrieved_articles": [
+        "104",
+        "97",
+        "266",
+        "129",
+        "227"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-064",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "definitions and licensing",
+      "question": "Menurut UU No. 22 Tahun 2009, apakah seseorang yang baru berusia 16 tahun sudah dapat memenuhi syarat usia paling rendah untuk memperoleh Surat Izin Mengemudi A, C, atau D?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art83_p2_body",
+        "uu-22-2009:art81_p2_body",
+        "uu-22-2009:art84_body",
+        "uu-22-2009:art83_p1_body",
+        "uu-22-2009:art83_p4_body"
+      ],
+      "retrieved_articles": [
+        "83",
+        "81",
+        "84"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 0.6309297535714575,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.38685280723454163
+      }
+    },
+    {
+      "id": "eval-065",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi_hukum_lintas_jalan",
+      "question": "Dalam UU Lalu Lintas dan Angkutan Jalan, apa yang dimaksud dengan \"Ruang Lalu Lintas Jalan\" dan apa saja yang termasuk ke dalamnya?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art265_p2_elucidation",
+        "uu-22-2009:art2_elucidation",
+        "uu-22-2009:art100_p2_elucidation",
+        "uu-22-2009:art235_p1_elucidation",
+        "uu-22-2009:art1_body"
+      ],
+      "retrieved_articles": [
+        "265",
+        "2",
+        "100",
+        "235",
+        "1"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.2,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.38685280723454163,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 0.2,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.38685280723454163
+      }
+    },
+    {
+      "id": "eval-066",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "Pasal 106 kewajiban mengemudi",
+      "question": "Menurut UU No. 22 Tahun 2009, bagaimana kewajiban dasar pengemudi saat mengemudikan kendaraan bermotor di jalan, dan bagaimana definisi kecelakaan lalu lintas dalam undang-undang ini?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art325_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art320_body",
+        "uu-22-2009:art321_body"
+      ],
+      "retrieved_articles": [
+        "318",
+        "325",
+        "324",
+        "320",
+        "321"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-067",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definitional statute interpretation",
+      "question": "Dalam Undang-Undang ini, bagaimana definisi sepeda motor?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art320_body",
+        "uu-22-2009:art326_body",
+        "uu-22-2009:art318_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art323_body"
+      ],
+      "retrieved_articles": [
+        "320",
+        "326",
+        "318",
+        "324",
+        "323"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-068",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "hak pejalan kaki",
+      "question": "Apa hak pejalan kaki ketika hendak menyeberang jalan di tempat penyeberangan, dan bagaimana jika fasilitas penyeberangan belum tersedia?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art131_p2_body",
+        "uu-22-2009:art131_p3_body",
+        "uu-22-2009:art131_p1_body",
+        "uu-22-2009:art45_p1_body",
+        "uu-22-2009:art132_p2_body"
+      ],
+      "retrieved_articles": [
+        "131",
+        "45",
+        "132"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.3333333333333333,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.4,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-069",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi/istilah hukum",
+      "question": "Menurut UU LLAJ, apa yang dimaksud dengan kendaraan bermotor?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art265_p3_body",
+        "uu-22-2009:art71_p1_elucidation",
+        "uu-22-2009:art59_p3_elucidation",
+        "uu-22-2009:art34_p1_body",
+        "uu-22-2009:art270_p4_body"
+      ],
+      "retrieved_articles": [
+        "265",
+        "71",
+        "59",
+        "34",
+        "270"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-070",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "larangan perbuatan yang mengganggu jalan",
+      "question": "Kalau sekelompok orang menaruh barang sampai jalan jadi rusak atau fungsi jalannya terganggu, apa larangan dalam UU Lalu Lintas yang relevan dari potongan yang tersedia?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art103_p3_body",
+        "uu-22-2009:art109_p1_body",
+        "uu-22-2009:art193_p3_body",
+        "uu-22-2009:art24_p2_body",
+        "uu-22-2009:art106_p1_elucidation"
+      ],
+      "retrieved_articles": [
+        "103",
+        "109",
+        "193",
+        "24",
+        "106"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-071",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "definisi jenis kendaraan dan penumpang dalam UU LLAJ",
+      "question": "Saya ingin memastikan, mobil penumpang itu menurut UU No. 22 Tahun 2009 termasuk kendaraan apa saja? Lalu, siapa yang disebut penumpang di dalam kendaraan? Mohon sebutkan dasar pasalnya.",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art137_p2_body",
+        "uu-22-2009:art53_p1_body",
+        "uu-22-2009:art185_p1_elucidation",
+        "uu-22-2009:art47_p2_body",
+        "uu-22-2009:art235_p1_elucidation"
+      ],
+      "retrieved_articles": [
+        "137",
+        "53",
+        "185",
+        "47",
+        "235"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 0.25,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.2640681225725909,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 0.25,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.20210734650054757
+      }
+    },
+    {
+      "id": "eval-072",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "hak utama di persimpangan",
+      "question": "Pada persimpangan sebidang yang tidak memakai Alat Pemberi Isyarat Lalu Lintas, kendaraan mana yang harus didahulukan jika pengemudi datang dari cabang persimpangan yang lebih kecil atau dari pekarangan yang berbatasan dengan jalan utama?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art113_p1_body",
+        "uu-22-2009:art113_p2_body",
+        "uu-22-2009:art112_p3_body",
+        "uu-22-2009:art59_p3_elucidation",
+        "uu-22-2009:art118_elucidation"
+      ],
+      "retrieved_articles": [
+        "113",
+        "112",
+        "59",
+        "118"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-073",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kelayakan jalan / perlengkapan kendaraan bermotor",
+      "question": "Apakah sepeda motor yang saya kendarai wajib memiliki lampu penunjuk arah, dan apakah keberadaan lampu itu termasuk bagian dari persyaratan teknis atau laik jalan menurut UU ini?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art285_p1_body",
+        "uu-22-2009:art112_p1_body",
+        "uu-22-2009:art285_p2_body",
+        "uu-22-2009:art107_p2_body",
+        "uu-22-2009:art54_p3_body"
+      ],
+      "retrieved_articles": [
+        "285",
+        "112",
+        "107",
+        "54"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-074",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kepatuhan teknis kendaraan bermotor",
+      "question": "Seorang pengemudi sepeda motor mengajukan pembelaan saat ditilang karena lampu utama kendaraannya dianggap tidak memenuhi ketentuan. Ia beralasan bahwa yang diwajibkan dalam undang-undang hanyalah kendaraan bermotor yang dioperasikan di jalan harus memenuhi persyaratan teknis dan laik jalan, sementara rincian tentang lampu utama hanya disebut sebagai bagian dari sistem lampu dan alat pemantul cahaya serta sebagai salah satu unsur kinerja minimal laik jalan. Berdasarkan kutipan pasal yang tersedia, apakah lampu utama memang termasuk persyaratan yang relevan untuk sepeda motor yang dioperasikan di jalan?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art285_p1_body",
+        "uu-22-2009:art48_p1_body",
+        "uu-22-2009:art22_p1_body",
+        "uu-22-2009:art59_p1_elucidation",
+        "uu-22-2009:art285_p2_body"
+      ],
+      "retrieved_articles": [
+        "285",
+        "48",
+        "22",
+        "59"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 0.6309297535714575,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.3333333333333333,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.2960819109658652
+      }
+    },
+    {
+      "id": "eval-075",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "klasifikasi jalan",
+      "question": "Apa dasar pengelompokan jalan menurut Pasal 19 UU 22/2009?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art20_p3_body",
+        "uu-22-2009:art162_p2_body",
+        "uu-22-2009:art34_p1_body",
+        "uu-22-2009:art74_p1_body",
+        "uu-22-2009:art235_p1_elucidation"
+      ],
+      "retrieved_articles": [
+        "20",
+        "162",
+        "34",
+        "74",
+        "235"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-076",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "ketertiban berkendara sepeda motor",
+      "question": "Kalau seseorang mengendarai sepeda motor tanpa kereta samping, bolehkah ia membawa dua penumpang sekaligus?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p9_body",
+        "uu-22-2009:art121_p2_body",
+        "uu-22-2009:art292_body",
+        "uu-22-2009:art122_p2_body",
+        "uu-22-2009:art106_p8_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "121",
+        "292",
+        "122"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 1.0,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 1.0
+      }
+    },
+    {
+      "id": "eval-077",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kepatuhan pengemudi saat berkendara",
+      "question": "Kalau seseorang mengemudikan mobil sambil menonton video di kendaraan dan tidak fokus, apakah itu masih sesuai dengan kewajiban mengemudi menurut UU LLAJ?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art106_p1_elucidation",
+        "uu-22-2009:art80_body",
+        "uu-22-2009:art77_p1_body",
+        "uu-22-2009:art82_body",
+        "uu-22-2009:art84_body"
+      ],
+      "retrieved_articles": [
+        "106",
+        "80",
+        "77",
+        "82",
+        "84"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 1.0,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 1.0,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.6131471927654584
+      }
+    },
+    {
+      "id": "eval-078",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kecelakaan lalu lintas dan tanggung jawab kerugian",
+      "question": "Saya mengendarai sepeda motor dan tanpa sengaja menabrak pagar rumah karena lalai. Akibatnya, pagar tersebut rusak, tetapi tidak ada korban luka. Menurut ketentuan yang tersedia, bagaimana penggolongan kecelakaan ini, dan siapa yang pada dasarnya bertanggung jawab atas kerugian akibat kelalaian pengemudi?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art234_p1_body",
+        "uu-22-2009:art192_p1_body",
+        "uu-22-2009:art240_body",
+        "uu-22-2009:art192_p4_body",
+        "uu-22-2009:art193_p1_body"
+      ],
+      "retrieved_articles": [
+        "234",
+        "192",
+        "240",
+        "193"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 1.0,
+        "article_precision_at_5": 0.25,
+        "article_ndcg_at_5": 0.6131471927654584,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.2,
+        "evidence_mrr_at_5": 1.0,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.3391602052736161
+      }
+    },
+    {
+      "id": "eval-079",
+      "split": "test",
+      "cohort": "answerable",
+      "category": "kendaraan bermotor / persyaratan teknis dan perlengkapan yang dilarang",
+      "question": "Kalau saya ingin menempelkan aksesori tambahan pada mobil, bagaimana cara menilai apakah aksesori itu dibolehkan atau justru dilarang? Apakah semua penempelan atau perlengkapan tambahan otomatis boleh selama mobil masih bisa jalan, atau ada batasannya menurut aturan yang tersedia?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art195_p2_elucidation",
+        "uu-22-2009:art315_p3_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art153_p2_body",
+        "uu-22-2009:art161_body"
+      ],
+      "retrieved_articles": [
+        "195",
+        "315",
+        "324",
+        "153",
+        "161"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 0.0,
+        "article_recall_at_5": 0.0,
+        "article_mrr_at_5": 0.0,
+        "article_precision_at_5": 0.0,
+        "article_ndcg_at_5": 0.0,
+        "evidence_hit_rate_at_5": 0.0,
+        "evidence_recall_at_5": 0.0,
+        "evidence_mrr_at_5": 0.0,
+        "evidence_precision_at_5": 0.0,
+        "evidence_ndcg_at_5": 0.0
+      }
+    },
+    {
+      "id": "eval-080",
+      "split": "development",
+      "cohort": "answerable",
+      "category": "kewajiban SIM dan syarat usia",
+      "question": "Menurut Undang-Undang Nomor 22 Tahun 2009 tentang Lalu Lintas dan Angkutan Jalan, apakah seseorang yang mengemudikan sepeda motor di jalan wajib memiliki Surat Izin Mengemudi, dan berapa usia paling rendah untuk memperoleh SIM C?",
+      "retrieved_chunk_ids": [
+        "uu-22-2009:art83_p2_body",
+        "uu-22-2009:art81_p2_body",
+        "uu-22-2009:art325_body",
+        "uu-22-2009:art324_body",
+        "uu-22-2009:art318_body"
+      ],
+      "retrieved_articles": [
+        "83",
+        "81",
+        "325",
+        "324",
+        "318"
+      ],
+      "metrics": {
+        "article_hit_rate_at_5": 1.0,
+        "article_recall_at_5": 0.5,
+        "article_mrr_at_5": 0.5,
+        "article_precision_at_5": 0.2,
+        "article_ndcg_at_5": 0.38685280723454163,
+        "evidence_hit_rate_at_5": 1.0,
+        "evidence_recall_at_5": 0.5,
+        "evidence_mrr_at_5": 0.5,
+        "evidence_precision_at_5": 0.2,
+        "evidence_ndcg_at_5": 0.38685280723454163
+      }
+    }
+  ]
+}

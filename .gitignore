@@ -1,23 +1,40 @@
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+# Operating system and editors
+.DS_Store
 .idea/
-
-# Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
-#  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
-#  you could uncomment the following to ignore the entire vscode folder
 .vscode/
 *.code-workspace
 
-# Mac
-.DS_Store
-
-# Output
-data/
-
-# Environment variables
+# Environment and secrets
 .env
+.env.*
+!.env.example
+
+# Python environments, caches, and reports
+**/.venv/
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+**/.ruff_cache/
+**/.coverage
+**/.coverage.*
+**/coverage.xml
+**/htmlcov/
+*.egg-info/
+
+# Node dependencies, build output, and reports
+**/node_modules/
+**/dist/
+**/coverage/
+*.tsbuildinfo
+npm-debug.log*
+
+# Local third-party evaluation seed data
+/corpus/train-00000-of-00001.parquet
+/corpus/test-00000-of-00001.parquet
+/corpus/hukumonline_llaj_seed.json
+
+# Local synthetic-evaluation generation, review, and provider artifacts
+/backend/eval/work/
+
+# Local project documentation
+/docs/
